@@ -43,23 +43,35 @@ jobs:
           cp -r bin/* cyrus/bin/
           zip -r cyrus.zip cyrus
 
-      - name: Create GitHub Release
+      # - name: Create GitHub Release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: ${{ github.sha }}
+      #     release_name: Release ${{ github.sha }}
+      #     draft: false
+      #     prerelease: false
+      # ------------------------------------------- Release
+      - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ncipollo/release-action@v1
+        if: steps.check_release.outputs.release_exists == '404'
         with:
-          tag_name: ${{ github.sha }}
-          release_name: Release ${{ github.sha }}
+          artifacts: "${{ github.workspace }}/artifact/*"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: "1"
+          release_name: "2"
+          release_body: "FOXSY CYRUS BASE"
           draft: false
           prerelease: false
-
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/cyrus.zip
-          asset_name: cyrus.zip
-          asset_content_type: application/zip
+      # - name: Upload Release Asset
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: build/cyrus.zip
+      #     asset_name: cyrus.zip
+      #     asset_content_type: application/zip
