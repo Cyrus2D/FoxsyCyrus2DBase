@@ -56,7 +56,6 @@
 
 #include "neck_offensive_intercept_neck.h"
 #include <rcsc/player/soccer_intention.h>
-#include "bhv_unmark.h"
 
 using namespace rcsc;
 
@@ -223,10 +222,6 @@ Bhv_BasicMove::execute( PlayerAgent * agent )
         return true;
    }
 
-    if (std::min(self_min, mate_min) < opp_min){
-        if (Bhv_Unmark().execute(agent))
-            return true;
-    }
     const double dash_power = Strategy::get_normal_dash_power( wm );
 
     double dist_thr = wm.ball().distFromSelf() * 0.1;

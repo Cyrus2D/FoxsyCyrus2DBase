@@ -75,19 +75,19 @@
 
 using namespace rcsc;
 
-const std::string Strategy::BEFORE_KICK_OFF_CONF = "before-kick-off.conf";
-const std::string Strategy::NORMAL_FORMATION_CONF = "normal-formation.conf";
+const std::string Strategy::BEFORE_KICK_OFF_CONF = "defense-formation.conf";
+const std::string Strategy::NORMAL_FORMATION_CONF = "defense-formation.conf";
 const std::string Strategy::DEFENSE_FORMATION_CONF = "defense-formation.conf";
 const std::string Strategy::OFFENSE_FORMATION_CONF = "offense-formation.conf";
-const std::string Strategy::GOAL_KICK_OPP_FORMATION_CONF = "goal-kick-opp.conf";
-const std::string Strategy::GOAL_KICK_OUR_FORMATION_CONF = "goal-kick-our.conf";
-const std::string Strategy::GOALIE_CATCH_OPP_FORMATION_CONF = "goalie-catch-opp.conf";
-const std::string Strategy::GOALIE_CATCH_OUR_FORMATION_CONF = "goalie-catch-our.conf";
-const std::string Strategy::KICKIN_OUR_FORMATION_CONF = "kickin-our-formation.conf";
-const std::string Strategy::SETPLAY_OPP_FORMATION_CONF = "setplay-opp-formation.conf";
-const std::string Strategy::SETPLAY_OUR_FORMATION_CONF = "setplay-our-formation.conf";
-const std::string Strategy::INDIRECT_FREEKICK_OPP_FORMATION_CONF = "indirect-freekick-opp-formation.conf";
-const std::string Strategy::INDIRECT_FREEKICK_OUR_FORMATION_CONF = "indirect-freekick-our-formation.conf";
+const std::string Strategy::GOAL_KICK_OPP_FORMATION_CONF = "defense-formation.conf";
+const std::string Strategy::GOAL_KICK_OUR_FORMATION_CONF = "offense-formation.conf";
+const std::string Strategy::GOALIE_CATCH_OPP_FORMATION_CONF = "defense-formation.conf";
+const std::string Strategy::GOALIE_CATCH_OUR_FORMATION_CONF = "offense-formation.conf";
+const std::string Strategy::KICKIN_OUR_FORMATION_CONF = "offense-formation.conf";
+const std::string Strategy::SETPLAY_OPP_FORMATION_CONF = "defense-formation.conf";
+const std::string Strategy::SETPLAY_OUR_FORMATION_CONF = "offense-formation.conf";
+const std::string Strategy::INDIRECT_FREEKICK_OPP_FORMATION_CONF = "defense-formation.conf";
+const std::string Strategy::INDIRECT_FREEKICK_OUR_FORMATION_CONF = "offense-formation.conf";
 
 /*-------------------------------------------------------------------*/
 /*!

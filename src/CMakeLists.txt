@@ -38,7 +38,7 @@ file(
 
 # copy other files to the binary direcotry
 file(COPY
-  formations-dt formations-keeper formations-taker player.conf coach.conf start-debug.sh start-offline.sh unmark_dnn_weights.txt
+  formations-dt formations-keeper formations-taker player.conf coach.conf start-debug.sh start-offline.sh
   # DESTINATION ${PROJECT_BINARY_DIR}/src/
   DESTINATION ${PROJECT_BINARY_DIR}/bin
   )
