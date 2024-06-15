@@ -105,6 +105,7 @@ add_executable(sample_player
   strategy.cpp
   main_player.cpp
         bhv_basic_block.cpp
+        setting.cpp
   )
 
 

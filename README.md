@@ -24,8 +24,14 @@ Extract "cyrus.zip"
 Run "start.sh" with the following parameters:
 - -t: team name
 - -p: player port number (coach port number = player port number + 2)
-- -c: config path
+- -c: config path (path should be directory and in the directory config.json should be exist)
 - -j: json config
+
+### Examples
+
+```bash
+./start.sh -t Test -p 6000 -c ~/Data/1
+```
 
 ## References
 

@@ -334,8 +334,12 @@ opt="${opt} --debug_server_host ${debug_server_host}"
 opt="${opt} --debug_server_port ${debug_server_port}"
 opt="${opt} ${offline_logging}"
 opt="${opt} ${debugopt}"
-opt="${opt} -j ${json_config}"
-opt="${opt} -c ${config_path}"
+if [ X"${json_config}" != X'' ]; then
+  opt="${opt} -j ${json_config}"
+fi
+if [ X"${config_path}" != X'' ]; then
+  opt="${opt} -c ${config_path}"
+fi
 
 ping -c 1 $host
 
@@ -384,8 +388,6 @@ if [ "${usecoach}" = "true" ]; then
   coachopt="${coachopt} --debug_server_port ${debug_server_port}"
   coachopt="${coachopt} ${offline_logging}"
   coachopt="${coachopt} ${debugopt}"
-  coachopt="${coachopt} -c ${config_path}"
-  coachopt="${coachopt} -j ${json_config}"
 
 
   if  [ X"${offline_mode}" != X'' ]; then

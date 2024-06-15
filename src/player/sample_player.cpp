@@ -63,6 +63,7 @@
 #include "basic_actions/neck_turn_to_ball_or_scan.h"
 #include "basic_actions/view_synch.h"
 #include "basic_actions/kick_table.h"
+#include "setting.h"
 
 #include <rcsc/formation/formation.h>
 #include <rcsc/player/intercept_table.h>
@@ -96,6 +97,7 @@ SamplePlayer::SamplePlayer()
     : PlayerAgent(),
       M_communication()
 {
+//    Setting::i().load_from_json_string(R"({"formation_name":"442"})");
     M_field_evaluator = createFieldEvaluator();
     M_action_generator = createActionGenerator();
 
@@ -164,6 +166,7 @@ SamplePlayer::~SamplePlayer()
 bool
 SamplePlayer::initImpl( CmdLineParser & cmd_parser )
 {
+    Setting::i().print();
     bool result = PlayerAgent::initImpl( cmd_parser );
 
     // read additional options
