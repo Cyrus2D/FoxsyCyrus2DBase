@@ -1,9 +1,9 @@
 name: Build and Release
 
-on:
-  push:
-    branches:
-      - cyrus2d
+# on:
+#   push:
+#     branches:
+#       - cyrus2d
 
 jobs:
   build:
