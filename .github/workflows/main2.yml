@@ -1,0 +1,58 @@
+name: Build and Release
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - cyrus2d
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create zip file
+        run: |
+          mv src cyrus
+          cd cyrus
+          zip -r ../cyrus.zip *
+
+      - name: Get latest tag
+        id: get_latest_tag
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const latestTag = await github.rest.repos.listTags({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 1,
+              page: 1
+            });
+            const latestTagName = latestTag.data.length > 0 ? latestTag.data[0].name : "0";
+            const newTag = (parseInt(latestTagName, 10) + 1).toString();
+            core.setOutput('new_tag', newTag);
+      # ------------------------------------------- Release
+      - name: Create Release
+        id: create_release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "${{ github.workspace }}/cyrus.zip"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.get_latest_tag.outputs.new_tag }}
+          release_name: ${{ steps.get_latest_tag.outputs.new_tag }}
+          release_body: "FOXSY CYRUS BASE"
+          draft: false
+          prerelease: false
+      # - name: Upload Release Asset
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: build/cyrus.zip
+      #     asset_name: cyrus.zip
+      #     asset_content_type: application/zip
