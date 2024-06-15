@@ -15,15 +15,21 @@ echo " All rights reserved."
 echo "******************************************************************"
 
 
-LIBPATH=@LIBRCSC_LIBDIR@
+LIBPATH=./lib
+if [ -z "$LIBPATH" ]; then
+  echo "Error: LIBPATH is not set."
+  exit 1
+fi
 if [ x"$LIBPATH" != x ]; then
   if [ x"$LD_LIBRARY_PATH" = x ]; then
     LD_LIBRARY_PATH=$LIBPATH
-  else
-    LD_LIBRARY_PATH=$LIBPATH:$LD_LIBRARY_PATH
   fi
   export LD_LIBRARY_PATH
+else
+    echo "Error: LIBPATH is not set."
+    exit 1
 fi
+
 
 DIR=`dirname $0`
 
@@ -41,6 +47,9 @@ config_dir="${DIR}/formations-dt"
 
 coach_conf="${DIR}/coach.conf"
 team_graphic="--use_team_graphic off"
+
+json_config=""
+config_path=""
 
 number=11
 usecoach="true"
@@ -69,7 +78,8 @@ usage()
    echo "  -t, --teamname TEAMNAME      specifies team name"
    echo "  -n, --number NUMBER          specifies the number of players"
    echo "  -u, --unum UNUM              specifies the uniform number of players"
-   echo "  -C, --without-coach          specifies not to run the coach"
+   echo "  -c,                          config path"
+   echo "  -j,                          json config"
    echo "  -f, --formation DIR          specifies the formation directory"
    echo "  --team-graphic FILE          specifies the team graphic xpm file"
    echo "  --offline-logging            writes offline client log (default: off)"
@@ -151,8 +161,14 @@ do
       shift 1
       ;;
 
-    -C|--without-coach)
-      usecoach="false"
+    -c)
+      config_path="${2}"
+      shift 1
+      ;;
+
+    -j)
+      json_config="${2}"
+      shift 1
       ;;
 
     -f|--formation)
@@ -318,6 +334,8 @@ opt="${opt} --debug_server_host ${debug_server_host}"
 opt="${opt} --debug_server_port ${debug_server_port}"
 opt="${opt} ${offline_logging}"
 opt="${opt} ${debugopt}"
+opt="${opt} -j ${json_config}"
+opt="${opt} -c ${config_path}"
 
 ping -c 1 $host
 
@@ -366,6 +384,8 @@ if [ "${usecoach}" = "true" ]; then
   coachopt="${coachopt} --debug_server_port ${debug_server_port}"
   coachopt="${coachopt} ${offline_logging}"
   coachopt="${coachopt} ${debugopt}"
+  coachopt="${coachopt} -c ${config_path}"
+  coachopt="${coachopt} -j ${json_config}"
 
 
   if  [ X"${offline_mode}" != X'' ]; then
