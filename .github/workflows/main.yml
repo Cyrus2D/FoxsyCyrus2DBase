@@ -1,0 +1,65 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - cyrus2d
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y build-essential libboost-all-dev cmake
+
+      - name: Install librcsc
+        run: |
+          git clone https://github.com/helios-base/librcsc.git
+          cd librcsc
+          git checkout 19175f339dcb5c3f61b56a8c1bff5345109f22ef
+          mkdir build
+          cd build
+          cmake ..
+          make
+          sudo make install
+
+      - name: Build project
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make
+
+      - name: Create zip file
+        run: |
+          cd build
+          mkdir -p cyrus/bin
+          cp -r bin/* cyrus/bin/
+          zip -r cyrus.zip cyrus
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.sha }}
+          release_name: Release ${{ github.sha }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/cyrus.zip
+          asset_name: cyrus.zip
+          asset_content_type: application/zip
