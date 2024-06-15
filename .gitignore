@@ -4,4 +4,6 @@ sample_player
 sample_trainer
 start.sh
 train.sh
-
+build/
+cmake-build-debug
+.idea/*
