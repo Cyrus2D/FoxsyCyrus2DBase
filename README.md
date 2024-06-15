@@ -31,8 +31,18 @@ Run "start.sh" with the following parameters:
 
 ```bash
 ./start.sh -t Test -p 6000 -c ~/Data/1
+
+./start.sh -t Test -p 6000 -c ~/Data/1/f.config
+
+./start.sh -t Test -p 6000 -c ~/Data/1/
+
+./start.sh -t Test -p 6000 -j '{"formation_name":"433"}'
 ```
 
+### Json Settings
+
+- `formation_name`: name of formation (default: "433") options "433", "433l"
+- 
 ## References
 
 The paper about Cyrus2D Base:

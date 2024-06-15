@@ -549,15 +549,14 @@ Strategy::updateSituation( const WorldModel & wm )
     int opp_min = wm.interceptTable().opponentStep();
     int our_min = std::min( self_min, mate_min );
 
-    if ( opp_min <= our_min - 2 )
+    if ( opp_min <= our_min )
     {
         dlog.addText( Logger::TEAM,
                       __FILE__": Situation Defense" );
         M_current_situation = Defense_Situation;
         return;
     }
-
-    if ( our_min <= opp_min - 2 )
+    else
     {
         dlog.addText( Logger::TEAM,
                       __FILE__": Situation Offense" );

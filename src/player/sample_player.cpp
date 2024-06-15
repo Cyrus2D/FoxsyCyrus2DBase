@@ -199,7 +199,7 @@ SamplePlayer::initImpl( CmdLineParser & cmd_parser )
         return false;
     }
 
-    if ( ! Strategy::instance().read( config().configDir() ) )
+    if ( ! Strategy::instance().read( "./formations/" + Setting::i().formation_name ) )
     {
         std::cerr << "***ERROR*** Failed to read team strategy." << std::endl;
         return false;
