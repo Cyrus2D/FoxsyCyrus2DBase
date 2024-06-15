@@ -2,9 +2,9 @@ name: Build and Release
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - cyrus2d
+  # push:
+  #   branches:
+  #     - cyrus2d
 
 jobs:
   build:
