@@ -1,9 +1,10 @@
 name: Build and Release
 
-# on:
-#   push:
-#     branches:
-#       - cyrus2d
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - cyrus2d
 
 jobs:
   build:
@@ -35,13 +36,16 @@ jobs:
           cd build
           cmake ..
           make
+          cd bin
+          mkdir lib
+          cp ~/local/lib/libr* lib/
 
       - name: Create zip file
         run: |
           cd build
-          mkdir -p cyrus/bin
-          cp -r bin/* cyrus/bin/
-          zip -r cyrus.zip cyrus
+          mv bin cyrus
+          cd cyrus
+          zip -r ../../cyrus.zip *
 
       # - name: Create GitHub Release
       #   id: create_release
@@ -58,10 +62,10 @@ jobs:
         id: create_release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ github.workspace }}/build/cyrus.zip"
+          artifacts: "${{ github.workspace }}/cyrus.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: "1"
-          release_name: "2"
+          tag: "8"
+          release_name: "8"
           release_body: "FOXSY CYRUS BASE"
           draft: false
           prerelease: false
