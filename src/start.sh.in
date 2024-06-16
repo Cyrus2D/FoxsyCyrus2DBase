@@ -14,6 +14,9 @@ echo " Copyright 2021-2022.  Omid Amini and Nader Zare"
 echo " All rights reserved."
 echo "******************************************************************"
 
+HOMEDIR=$(dirname "$0")
+
+cd $HOMEDIR || { echo "Can not find HOMEDIR[${HOMEDIR}]"; exit 1; }
 
 LIBPATH=./lib
 if [ -z "$LIBPATH" ]; then
