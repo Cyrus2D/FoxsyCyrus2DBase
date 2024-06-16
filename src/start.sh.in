@@ -34,7 +34,7 @@ else
 fi
 
 
-DIR=`dirname $0`
+DIR='.'
 
 player="${DIR}/sample_player"
 coach="${DIR}/sample_coach"
