@@ -16,10 +16,11 @@ void Setting::find_version(const string &json_str){
 
         if (j.contains("version"))
             version = j.at("version").get<int>();
+        std::cout<< "version: " << version << std::endl;
     }
     catch (exception &e)
     {
-        std::cerr << "Error in parsing json string: " << e.what() << std::endl;
+        std::cout << "Error in parsing json string: " << e.what() << std::endl;
     }
 }
 
@@ -36,12 +37,12 @@ void Setting::load_from_json_string(const string &json_str){
         }
         catch (exception &e)
         {
-            std::cerr << "Error in parsing json string: " << e.what() << std::endl;
+            std::cout << "Error in parsing json string: " << e.what() << std::endl;
         }
     }
     else
     {
-        std::cerr << "Version is not supported or it was not found in json" << std::endl;
+        std::cout << "Version is not supported or it was not found in json" << std::endl;
     }
 }
 
