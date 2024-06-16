@@ -44,7 +44,8 @@ jobs:
         run: |
           cd build
           mv bin cyrus
-          zip -r ../../cyrus.zip cyrus
+          zip -r cyrus.zip cyrus
+          mv cyrus.zip ../
       - name: Get latest tag
         id: get_latest_tag
         uses: actions/github-script@v6
