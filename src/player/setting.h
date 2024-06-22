@@ -18,7 +18,7 @@ public:
 
     int version = 0;
 
-    string formation_name = "433";
+    string formation_name = "433-433";
 
     void find_version(const string &json_string);
 
