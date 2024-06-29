@@ -41,8 +41,8 @@ Run "start.sh" with the following parameters:
 
 ### Json Settings
 
-- `formation_name`: name of formation (default: "433") options "433", "433l"
-- 
+- `formation_name`: name of formation (default: "433-433") options "4231-3133", "433-343l", "433-433", "442-334", "442-424", "523-5232"
+
 ## References
 
 The paper about Cyrus2D Base:
