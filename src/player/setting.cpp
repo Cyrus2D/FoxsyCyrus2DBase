@@ -68,7 +68,7 @@ void Setting::read_from_file(string file_path){
 }
 
 void Setting::print() {
-    std:cout << "formation_name: " << formation_name << std::endl;
+    std::cout << "formation_name: " << formation_name << std::endl;
 }
 
 void Setting::read_from_arguments(int argc, char *argv[]){
