@@ -32,8 +32,27 @@ void Setting::load_from_json_string(const string &json_str){
         {
             json j = json::parse(json_str);
 
-            if (j.contains("formation_name"))
+            if (j.contains("formation_name")) {
                 formation_name = j.at("formation_name").get<std::string>();
+                if (std::find(formation_options.begin(), formation_options.end(), formation_name) == formation_options.end()) {
+                    std::cout << "Formation name is not valid" << std::endl;
+                    formation_name = formation_options.at(0);
+                }
+            }
+            if (j.contains("winner_formation_name")) {
+                winner_formation_name = j.at("winner_formation_name").get<std::string>();
+                if (std::find(formation_options.begin(), formation_options.end(), winner_formation_name) == formation_options.end()) {
+                    std::cout << "Formation name is not valid" << std::endl;
+                    winner_formation_name = formation_options.at(0);
+                }
+            }
+            if (j.contains("loser_formation_name")) {
+                loser_formation_name = j.at("loser_formation_name").get<std::string>();
+                if (std::find(formation_options.begin(), formation_options.end(), loser_formation_name) == formation_options.end()) {
+                    std::cout << "Formation name is not valid" << std::endl;
+                    loser_formation_name = formation_options.at(0);
+                }
+            }
             if (j.contains("offensive_kick_planner_use_direct_pass"))
                 offensive_kick_planner_use_direct_pass = j.at("offensive_kick_planner_use_direct_pass").get<bool>();
             if (j.contains("offensive_kick_planner_use_lead_pass"))

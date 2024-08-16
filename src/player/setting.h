@@ -17,8 +17,11 @@ public:
     static Setting & i();
 
     int version = 0;
+    vector<string> formation_options = {"433-433", "433-343l", "442-334", "442-424", "523-3232", "4231-3133"};
 
     string formation_name = "433-433";
+    string winner_formation_name = "433-433";
+    string loser_formation_name = "433-433";
     // options: 433-433, 433-343l, 442-334, 442-424, 523-3232, 4231-3133
 
     bool offensive_kick_planner_use_direct_pass = true;

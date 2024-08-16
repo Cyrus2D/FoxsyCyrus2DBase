@@ -205,6 +205,18 @@ SamplePlayer::initImpl( CmdLineParser & cmd_parser )
         return false;
     }
 
+    if ( ! Strategy::instance().readWinner( "./formations/" + Setting::i().winner_formation_name ) )
+    {
+        std::cerr << "***ERROR*** Failed to read team strategy (winner)." << std::endl;
+        return false;
+    }
+
+    if ( ! Strategy::instance().readLoser( "./formations/" + Setting::i().loser_formation_name ) )
+    {
+        std::cerr << "***ERROR*** Failed to read team strategy (loser)." << std::endl;
+        return false;
+    }
+
     if ( KickTable::instance().read( config().configDir() + "/kick-table" ) )
     {
         std::cerr << "Loaded the kick table: ["
