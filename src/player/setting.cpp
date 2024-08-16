@@ -85,6 +85,8 @@ void Setting::load_from_json_string(const string &json_str){
                 if ( moving_pressing_level > 100 )
                     moving_pressing_level = 100;
             }
+            if (j.contains("moving_use_offside_trap"))
+                moving_use_offside_trap = j.at("moving_use_offside_trap").get<bool>();
         }
         catch (exception &e)
         {

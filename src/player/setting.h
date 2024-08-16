@@ -36,6 +36,7 @@ public:
 
     int moving_save_energy = 60; // 0 to 100
     int moving_pressing_level = 50; // 0 to 100
+    bool moving_use_offside_trap = true;
 
     void find_version(const string &json_string);
 
