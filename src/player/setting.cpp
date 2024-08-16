@@ -78,6 +78,13 @@ void Setting::load_from_json_string(const string &json_str){
                 if ( moving_save_energy > 100 )
                     moving_save_energy = 100;
             }
+            if (j.contains("moving_pressing_level")) {
+                moving_pressing_level = j.at("moving_pressing_level").get<int>();
+                if ( moving_pressing_level < 0 )
+                    moving_pressing_level = 0;
+                if ( moving_pressing_level > 100 )
+                    moving_pressing_level = 100;
+            }
         }
         catch (exception &e)
         {

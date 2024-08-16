@@ -35,6 +35,7 @@ public:
     bool offensive_kick_planner_use_sample_dribble = true;
 
     int moving_save_energy = 60; // 0 to 100
+    int moving_pressing_level = 50; // 0 to 100
 
     void find_version(const string &json_string);
 
