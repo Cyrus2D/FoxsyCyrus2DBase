@@ -36,12 +36,25 @@ Run "start.sh" with the following parameters:
 
 ./start.sh -t Test -p 6000 -c ~/Data/1/
 
-./start.sh -t Test -p 6000 -j '{"version":1, "formation_name":"433"}'
+./start.sh -t Test -p 6000 -j '{"version":1, "formation_name":"433-433"}'
 ```
 
 ### Json Settings
-
 - `formation_name`: name of formation (default: "433-433") options "4231-3133", "433-343l", "433-433", "442-334", "442-424", "523-5232"
+- `winner_formation_name`: name of formation when our score is more than opponent score (default: "433-433") options "4231-3133", "433-343l", "433-433", "442-334", "442-424", "523-5232"
+- `loser_formation_name`: name of formation when opponent score is more than our score (default: "433-433") options "4231-3133", "433-343l", "433-433", "442-334", "442-424", "523-5232"
+- `offensive_kick_planner_use_direct_pass`: use direct pass in offensive kick planner (default: true)
+- `offensive_kick_planner_use_lead_pass`: use lead pass in offensive kick planner (default: true)
+- `offensive_kick_planner_use_through_pass`: use through pass in offensive kick planner (default: true)
+- `offensive_kick_planner_use_cross_pass`: use cross pass in offensive kick planner (default: true)
+- `offensive_kick_planner_use_short_dribble`: use short dribble in offensive kick planner (default: true)
+- `offensive_kick_planner_use_long_dribble`: use long dribble in offensive kick planner (default: true)
+- `offensive_kick_planner_use_sample_shot`: use sample shot in offensive kick planner (default: true) [to search more than 1 layer]
+- `offensive_kick_planner_use_sample_pass`: use sample pass in offensive kick planner (default: true) [to search more than 1 layer]
+- `offensive_kick_planner_use_sample_dribble`: use sample dribble in offensive kick planner (default: true) [to search more than 1 layer]
+- `moving_save_energy`: save energy level (default: 60) [0 to 100]
+- `moving_pressing_level`: pressing level (default: 50) [0 to 100]
+- `moving_use_offside_trap`: use offside trap (default: true)
 
 ## References
 
