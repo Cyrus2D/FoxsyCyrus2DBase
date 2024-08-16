@@ -34,6 +34,24 @@ void Setting::load_from_json_string(const string &json_str){
 
             if (j.contains("formation_name"))
                 formation_name = j.at("formation_name").get<std::string>();
+            if (j.contains("offensive_kick_planner_use_direct_pass"))
+                offensive_kick_planner_use_direct_pass = j.at("offensive_kick_planner_use_direct_pass").get<bool>();
+            if (j.contains("offensive_kick_planner_use_lead_pass"))
+                offensive_kick_planner_use_lead_pass = j.at("offensive_kick_planner_use_lead_pass").get<bool>();
+            if (j.contains("offensive_kick_planner_use_through_pass"))
+                offensive_kick_planner_use_through_pass = j.at("offensive_kick_planner_use_through_pass").get<bool>();
+            if (j.contains("offensive_kick_planner_use_cross_pass"))
+                offensive_kick_planner_use_cross_pass = j.at("offensive_kick_planner_use_cross_pass").get<bool>();
+            if (j.contains("offensive_kick_planner_use_short_dribble"))
+                offensive_kick_planner_use_short_dribble = j.at("offensive_kick_planner_use_short_dribble").get<bool>();
+            if (j.contains("offensive_kick_planner_use_long_dribble"))
+                offensive_kick_planner_use_long_dribble = j.at("offensive_kick_planner_use_long_dribble").get<bool>();
+            if (j.contains("offensive_kick_planner_use_sample_shot"))
+                offensive_kick_planner_use_sample_shot = j.at("offensive_kick_planner_use_sample_shot").get<bool>();
+            if (j.contains("offensive_kick_planner_use_sample_pass"))
+                offensive_kick_planner_use_sample_pass = j.at("offensive_kick_planner_use_sample_pass").get<bool>();
+            if (j.contains("offensive_kick_planner_use_sample_dribble"))
+                offensive_kick_planner_use_sample_dribble = j.at("offensive_kick_planner_use_sample_dribble").get<bool>();
         }
         catch (exception &e)
         {

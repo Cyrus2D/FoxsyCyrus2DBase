@@ -807,47 +807,57 @@ SamplePlayer::createActionGenerator() const
     //
     // shoot
     //
-    g->addGenerator( new ActGen_RangeActionChainLengthFilter
+    if ( Setting::i().offensive_kick_planner_use_sample_shot )
+        g->addGenerator( new ActGen_RangeActionChainLengthFilter
                      ( new ActGen_Shoot(),
                        2, ActGen_RangeActionChainLengthFilter::MAX ) );
+    
 
     //
     // strict check pass
     //
-    g->addGenerator( new ActGen_MaxActionChainLengthFilter
-                     ( new ActGen_StrictCheckPass(), 1 ) );
+    if ( Setting::i().offensive_kick_planner_use_direct_pass 
+        || Setting::i().offensive_kick_planner_use_lead_pass
+        || Setting::i().offensive_kick_planner_use_through_pass)
+        g->addGenerator( new ActGen_MaxActionChainLengthFilter
+                        ( new ActGen_StrictCheckPass(), 1 ) );
 
     //
     // cross
     //
-    g->addGenerator( new ActGen_MaxActionChainLengthFilter
-                     ( new ActGen_Cross(), 1 ) );
+    if ( Setting::i().offensive_kick_planner_use_cross_pass )
+        g->addGenerator( new ActGen_MaxActionChainLengthFilter
+                        ( new ActGen_Cross(), 1 ) );
 
     //
     // direct pass
     //
-    // g->addGenerator( new ActGen_RangeActionChainLengthFilter
-    //                  ( new ActGen_DirectPass(),
-    //                    2, ActGen_RangeActionChainLengthFilter::MAX ) );
+    if ( Setting::i().offensive_kick_planner_use_sample_pass )
+        g->addGenerator( new ActGen_RangeActionChainLengthFilter
+                        ( new ActGen_DirectPass(),
+                        2, ActGen_RangeActionChainLengthFilter::MAX ) );
 
     //
     // short dribble
     //
-    g->addGenerator( new ActGen_MaxActionChainLengthFilter
-                     ( new ActGen_ShortDribble(), 1 ) );
+    if ( Setting::i().offensive_kick_planner_use_short_dribble)
+        g->addGenerator( new ActGen_MaxActionChainLengthFilter
+                        ( new ActGen_ShortDribble(), 1 ) );
 
     //
     // self pass (long dribble)
     //
-    g->addGenerator( new ActGen_MaxActionChainLengthFilter
-                     ( new ActGen_SelfPass(), 1 ) );
+    if ( Setting::i().offensive_kick_planner_use_long_dribble )
+        g->addGenerator( new ActGen_MaxActionChainLengthFilter
+                        ( new ActGen_SelfPass(), 1 ) );
 
     //
     // simple dribble
     //
-    // g->addGenerator( new ActGen_RangeActionChainLengthFilter
-    //                  ( new ActGen_SimpleDribble(),
-    //                    2, ActGen_RangeActionChainLengthFilter::MAX ) );
+    if ( Setting::i().offensive_kick_planner_use_sample_dribble )
+        g->addGenerator( new ActGen_RangeActionChainLengthFilter
+                        ( new ActGen_SimpleDribble(),
+                        2, ActGen_RangeActionChainLengthFilter::MAX ) );
 
     return ActionGenerator::ConstPtr( g );
 }
