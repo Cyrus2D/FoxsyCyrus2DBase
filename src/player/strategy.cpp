@@ -43,6 +43,8 @@
 
 #include "soccer_role.h"
 
+#include "setting.h"
+
 
 #ifndef USE_GENERIC_FACTORY
 #include "role_sample.h"
@@ -2040,11 +2042,11 @@ Strategy::get_normal_dash_power( const WorldModel & wm )
     {
         s_recover_mode = false;
     }
-    else if ( wm.self().stamina() < ServerParam::i().staminaMax() * 0.5 )
+    else if ( wm.self().stamina() < ServerParam::i().staminaMax() * (static_cast<double>(Setting::i().moving_save_energy) / 100.0 - 0.1) )
     {
         s_recover_mode = true;
     }
-    else if ( wm.self().stamina() > ServerParam::i().staminaMax() * 0.7 )
+    else if ( wm.self().stamina() > ServerParam::i().staminaMax() * (static_cast<double>(Setting::i().moving_save_energy) / 100.0 + 0.1) )
     {
         s_recover_mode = false;
     }

@@ -71,6 +71,13 @@ void Setting::load_from_json_string(const string &json_str){
                 offensive_kick_planner_use_sample_pass = j.at("offensive_kick_planner_use_sample_pass").get<bool>();
             if (j.contains("offensive_kick_planner_use_sample_dribble"))
                 offensive_kick_planner_use_sample_dribble = j.at("offensive_kick_planner_use_sample_dribble").get<bool>();
+            if (j.contains("moving_save_energy")) {
+                moving_save_energy = j.at("moving_save_energy").get<int>();
+                if ( moving_save_energy < 0 )
+                    moving_save_energy = 0;
+                if ( moving_save_energy > 100 )
+                    moving_save_energy = 100;
+            }
         }
         catch (exception &e)
         {
