@@ -1,4 +1,4 @@
-# Cyrus2D Base 
+a# Cyrus2D Base 
 [![GitHub license](https://img.shields.io/github/license/helios-base/helios-base)](https://github.com/helios-base/helios-base/blob/master/LISENCE)
 
 Cyrus2D-base is a sample team for the RoboCup Soccer 2D Simulator.
@@ -61,7 +61,7 @@ Run "start.sh" with the following parameters:
 - `offensive_kick_planner_use_sample_pass`: use sample pass in offensive kick planner (default: true) [to search more than 1 layer]
 - `offensive_kick_planner_use_sample_dribble`: use sample dribble in offensive kick planner (default: true) [to search more than 1 layer]
 - `moving_save_energy`: save energy level (default: 60) [0 to 100]
-- `moving_pressing_level`: pressing level (default: 50) [0 to 100]
+- `pressing` : 0 or 1 - 0 means no pressing and 1 means pressing
 - `moving_use_offside_trap`: use offside trap (default: true)
 
 ### Json Form Schema
@@ -141,11 +141,11 @@ Run "start.sh" with the following parameters:
       "minimum": 0,
       "default": 60
     },
-    "moving_pressing_level": {
+    "pressing": {
       "type": "number",
-      "maximum": 100,
+      "maximum": 1,
       "minimum": 0,
-      "default": 50
+      "default": 0
     },
     "moving_use_offside_trap": {
       "type": "boolean",

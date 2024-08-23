@@ -109,12 +109,12 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
                 if ( moving_save_energy > 100 )
                     moving_save_energy = 100;
             }
-            if (j.contains("moving_pressing_level")) {
-                moving_pressing_level = j.at("moving_pressing_level").get<double>();
-                if ( moving_pressing_level < 0 )
-                    moving_pressing_level = 0;
-                if ( moving_pressing_level > 100 )
-                    moving_pressing_level = 100;
+            if (j.contains("pressing")) {
+                pressing = j.at("pressing").get<double>();
+                if ( pressing != 0 )
+                    pressing = 1;
+                if ( pressing == 0 )
+                    pressing = 0;
             }
             if (j.contains("moving_use_offside_trap"))
                 moving_use_offside_trap = j.at("moving_use_offside_trap").get<bool>();
@@ -165,7 +165,7 @@ void Setting::print() const {
     std::cout << "offensive_kick_planner_use_sample_pass: " << offensive_kick_planner_use_sample_pass << std::endl;
     std::cout << "offensive_kick_planner_use_sample_dribble: " << offensive_kick_planner_use_sample_dribble << std::endl;
     std::cout << "moving_save_energy: " << moving_save_energy << std::endl;
-    std::cout << "moving_pressing_level: " << moving_pressing_level << std::endl;
+    std::cout << "pressing: " << pressing << std::endl;
 }
 
 void Setting::read_from_arguments(int argc, char *argv[]){
