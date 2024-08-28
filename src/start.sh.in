@@ -53,6 +53,7 @@ team_graphic="--use_team_graphic off"
 
 json_config=""
 config_path=""
+encoding="json"
 
 number=11
 usecoach="true"
@@ -83,6 +84,7 @@ usage()
    echo "  -u, --unum UNUM              specifies the uniform number of players"
    echo "  -c,                          config path"
    echo "  -j,                          json config"
+   echo "  -e,                          encoding (default: json)"
    echo "  -f, --formation DIR          specifies the formation directory"
    echo "  --team-graphic FILE          specifies the team graphic xpm file"
    echo "  --offline-logging            writes offline client log (default: off)"
@@ -171,6 +173,11 @@ do
 
     -j)
       json_config="${2}"
+      shift 1
+      ;;
+
+    -e)
+      encoding="${2}"
       shift 1
       ;;
 
@@ -337,6 +344,7 @@ opt="${opt} --debug_server_host ${debug_server_host}"
 opt="${opt} --debug_server_port ${debug_server_port}"
 opt="${opt} ${offline_logging}"
 opt="${opt} ${debugopt}"
+opt="${opt} -e ${encoding}"
 if [ X"${json_config}" != X'' ]; then
   opt="${opt} -j ${json_config}"
 fi
