@@ -32,8 +32,61 @@ void Setting::load_from_json_string(const string &json_str){
         {
             json j = json::parse(json_str);
 
-            if (j.contains("formation_name"))
+            if (j.contains("formation_name")) {
                 formation_name = j.at("formation_name").get<std::string>();
+                if (std::find(formation_options.begin(), formation_options.end(), formation_name) == formation_options.end()) {
+                    std::cout << "Formation name is not valid" << std::endl;
+                    formation_name = formation_options.at(0);
+                }
+            }
+            if (j.contains("winner_formation_name")) {
+                winner_formation_name = j.at("winner_formation_name").get<std::string>();
+                if (std::find(formation_options.begin(), formation_options.end(), winner_formation_name) == formation_options.end()) {
+                    std::cout << "Formation name is not valid" << std::endl;
+                    winner_formation_name = formation_options.at(0);
+                }
+            }
+            if (j.contains("loser_formation_name")) {
+                loser_formation_name = j.at("loser_formation_name").get<std::string>();
+                if (std::find(formation_options.begin(), formation_options.end(), loser_formation_name) == formation_options.end()) {
+                    std::cout << "Formation name is not valid" << std::endl;
+                    loser_formation_name = formation_options.at(0);
+                }
+            }
+            if (j.contains("offensive_kick_planner_use_direct_pass"))
+                offensive_kick_planner_use_direct_pass = j.at("offensive_kick_planner_use_direct_pass").get<bool>();
+            if (j.contains("offensive_kick_planner_use_lead_pass"))
+                offensive_kick_planner_use_lead_pass = j.at("offensive_kick_planner_use_lead_pass").get<bool>();
+            if (j.contains("offensive_kick_planner_use_through_pass"))
+                offensive_kick_planner_use_through_pass = j.at("offensive_kick_planner_use_through_pass").get<bool>();
+            if (j.contains("offensive_kick_planner_use_cross_pass"))
+                offensive_kick_planner_use_cross_pass = j.at("offensive_kick_planner_use_cross_pass").get<bool>();
+            if (j.contains("offensive_kick_planner_use_short_dribble"))
+                offensive_kick_planner_use_short_dribble = j.at("offensive_kick_planner_use_short_dribble").get<bool>();
+            if (j.contains("offensive_kick_planner_use_long_dribble"))
+                offensive_kick_planner_use_long_dribble = j.at("offensive_kick_planner_use_long_dribble").get<bool>();
+            if (j.contains("offensive_kick_planner_use_sample_shot"))
+                offensive_kick_planner_use_sample_shot = j.at("offensive_kick_planner_use_sample_shot").get<bool>();
+            if (j.contains("offensive_kick_planner_use_sample_pass"))
+                offensive_kick_planner_use_sample_pass = j.at("offensive_kick_planner_use_sample_pass").get<bool>();
+            if (j.contains("offensive_kick_planner_use_sample_dribble"))
+                offensive_kick_planner_use_sample_dribble = j.at("offensive_kick_planner_use_sample_dribble").get<bool>();
+            if (j.contains("moving_save_energy")) {
+                moving_save_energy = j.at("moving_save_energy").get<double>();
+                if ( moving_save_energy < 0 )
+                    moving_save_energy = 0;
+                if ( moving_save_energy > 100 )
+                    moving_save_energy = 100;
+            }
+            if (j.contains("moving_pressing_level")) {
+                moving_pressing_level = j.at("moving_pressing_level").get<double>();
+                if ( moving_pressing_level < 0 )
+                    moving_pressing_level = 0;
+                if ( moving_pressing_level > 100 )
+                    moving_pressing_level = 100;
+            }
+            if (j.contains("moving_use_offside_trap"))
+                moving_use_offside_trap = j.at("moving_use_offside_trap").get<bool>();
         }
         catch (exception &e)
         {
@@ -68,7 +121,7 @@ void Setting::read_from_file(string file_path){
 }
 
 void Setting::print() {
-    std:cout << "formation_name: " << formation_name << std::endl;
+    std::cout << "formation_name: " << formation_name << std::endl;
 }
 
 void Setting::read_from_arguments(int argc, char *argv[]){

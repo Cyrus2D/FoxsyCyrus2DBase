@@ -46,6 +46,7 @@
 #include "basic_actions/neck_turn_to_ball_or_scan.h"
 #include "basic_actions/neck_scan_field.h"
 #include "basic_actions/neck_turn_to_low_conf_teammate.h"
+#include "setting.h"
 
 #include <rcsc/player/player_agent.h>
 #include <rcsc/player/debug_client.h>
@@ -152,15 +153,16 @@ Bhv_BasicMove::execute( PlayerAgent * agent )
 
     } // end of block
 
+    double pressing_level = static_cast<double>(Setting::i().moving_pressing_level) / 100.0;
 
     // G2d: pressing
-    int pressing = 13;
+    int pressing = static_cast<int>(26.0 * pressing_level);
 
     if ( role >= 6 && role <= 8 && wm.ball().pos().x > -30.0 && wm.self().pos().x < 10.0 )
-        pressing = 7;
+        pressing = static_cast<int>(14.0 * pressing_level);
 
     if (fabs(wm.ball().pos().y) > 22.0 && wm.ball().pos().x < 0.0 && wm.ball().pos().x > -36.5 && (role == 4 || role == 5) ) 
-        pressing = 23;
+        pressing = static_cast<int>(46.0 * pressing_level);
 
     // C2D: Helios 18 Tune removed -> replace with BNN
     // if (helios2018) 
@@ -184,8 +186,9 @@ Bhv_BasicMove::execute( PlayerAgent * agent )
 
 
 // G2D : offside trap
-    double first = 0.0, second = 0.0;
-    const auto t3_end = wm.teammatesFromSelf().end();
+    if (Setting::i().moving_use_offside_trap){
+        double first = 0.0, second = 0.0;
+        const auto t3_end = wm.teammatesFromSelf().end();
         for ( auto it = wm.teammatesFromSelf().begin();
               it != t3_end;
               ++it )
@@ -201,26 +204,27 @@ Bhv_BasicMove::execute( PlayerAgent * agent )
             }
         }
 
-   double buf1 = 3.5;
-   double buf2 = 4.5;
+        double buf1 = 3.5;
+        double buf2 = 4.5;
 
-   if( me.x < -37.0 && opp_min < mate_min &&
-       (homePos.x > -37.5 || wm.ball().inertiaPoint(opp_min).x > -36.0 ) &&
-         second + buf1 > me.x && wm.ball().pos().x > me.x + buf2)
-   {
-        Body_GoToPoint( rcsc::Vector2D( me.x + 15.0, me.y ),
-                        0.5, ServerParam::i().maxDashPower(), // maximum dash power
-                        ServerParam::i().maxDashPower(),     // preferred dash speed
-                        2,                                  // preferred reach cycle
-                        true,                              // save recovery
-                        5.0 ).execute( agent );
+        if( me.x < -37.0 && opp_min < mate_min &&
+            (homePos.x > -37.5 || wm.ball().inertiaPoint(opp_min).x > -36.0 ) &&
+            second + buf1 > me.x && wm.ball().pos().x > me.x + buf2)
+        {
+            Body_GoToPoint( rcsc::Vector2D( me.x + 15.0, me.y ),
+                            0.5, ServerParam::i().maxDashPower(), // maximum dash power
+                            ServerParam::i().maxDashPower(),     // preferred dash speed
+                            2,                                  // preferred reach cycle
+                            true,                              // save recovery
+                            5.0 ).execute( agent );
 
-        if (wm.kickableOpponent() && wm.ball().distFromSelf() < 12.0) // C2D
-            agent->setNeckAction(new Neck_TurnToBall());
-        else
-            agent->setNeckAction(new Neck_TurnToBallOrScan(4)); // C2D
-        return true;
-   }
+            if (wm.kickableOpponent() && wm.ball().distFromSelf() < 12.0) // C2D
+                agent->setNeckAction(new Neck_TurnToBall());
+            else
+                agent->setNeckAction(new Neck_TurnToBallOrScan(4)); // C2D
+            return true;
+        }
+    }
 
     const double dash_power = Strategy::get_normal_dash_power( wm );
 
