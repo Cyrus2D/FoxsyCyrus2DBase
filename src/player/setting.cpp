@@ -24,13 +24,44 @@ void Setting::find_version(const string &json_str){
     }
 }
 
-void Setting::load_from_json_string(const string &json_str){
-    find_version(json_str);
+void replaceAll(std::string &str, const std::string &from, const std::string &to) {
+    size_t start_pos = 0;
+    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+        str.replace(start_pos, from.length(), to);
+        start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
+    }
+}
+
+string Setting::decode(const std::string &encoding, const std::string &encoded_string) {
+    if (encoding == "json") {
+        std::cout<< "json encoding" << std::endl;
+        return encoded_string;
+    }
+    else if (encoding == "temp") {
+        // replace #qq# with "
+        // replace #q# with '
+        // replace #c# with ,
+        std::cout<< "temp encoding" << std::endl;
+        string decoded_string = encoded_string;
+        replaceAll(decoded_string, "#qq#", "\"");
+        replaceAll(decoded_string, "#q#", "'");
+        replaceAll(decoded_string, "#c#", ",");
+        return decoded_string;
+    }
+    else {
+        std::cout << "Encoding is not supported" << std::endl;
+        return "json";
+    }
+}
+
+void Setting::load_from_json_string(const string &json_str, const string &encoding){
+    string decoded_json_str = decode(encoding, json_str);
+    find_version(decoded_json_str);
     if (version == 1)
     {
         try
         {
-            json j = json::parse(json_str);
+            json j = json::parse(decoded_json_str);
 
             if (j.contains("formation_name")) {
                 formation_name = j.at("formation_name").get<std::string>();
@@ -99,7 +130,7 @@ void Setting::load_from_json_string(const string &json_str){
     }
 }
 
-void Setting::read_from_file(string file_path){
+void Setting::read_from_file(string file_path, const string &encoding) {
     if (file_path.find(".json") == string::npos) {
         if (file_path[file_path.size() - 1] == '/')
             file_path = file_path.substr(0, file_path.size() - 1);
@@ -117,26 +148,48 @@ void Setting::read_from_file(string file_path){
     string json_str((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
     file.close();
 
-    load_from_json_string(json_str);
+    load_from_json_string(json_str, encoding);
 }
 
-void Setting::print() {
+void Setting::print() const {
     std::cout << "formation_name: " << formation_name << std::endl;
+    std::cout << "winner_formation_name: " << winner_formation_name << std::endl;
+    std::cout << "loser_formation_name: " << loser_formation_name << std::endl;
+    std::cout << "offensive_kick_planner_use_direct_pass: " << offensive_kick_planner_use_direct_pass << std::endl;
+    std::cout << "offensive_kick_planner_use_lead_pass: " << offensive_kick_planner_use_lead_pass << std::endl;
+    std::cout << "offensive_kick_planner_use_through_pass: " << offensive_kick_planner_use_through_pass << std::endl;
+    std::cout << "offensive_kick_planner_use_cross_pass: " << offensive_kick_planner_use_cross_pass << std::endl;
+    std::cout << "offensive_kick_planner_use_short_dribble: " << offensive_kick_planner_use_short_dribble << std::endl;
+    std::cout << "offensive_kick_planner_use_long_dribble: " << offensive_kick_planner_use_long_dribble << std::endl;
+    std::cout << "offensive_kick_planner_use_sample_shot: " << offensive_kick_planner_use_sample_shot << std::endl;
+    std::cout << "offensive_kick_planner_use_sample_pass: " << offensive_kick_planner_use_sample_pass << std::endl;
+    std::cout << "offensive_kick_planner_use_sample_dribble: " << offensive_kick_planner_use_sample_dribble << std::endl;
+    std::cout << "moving_save_energy: " << moving_save_energy << std::endl;
+    std::cout << "moving_pressing_level: " << moving_pressing_level << std::endl;
 }
 
 void Setting::read_from_arguments(int argc, char *argv[]){
     for (int i = 0; i < argc; i++) {
         std::cout << argv[i] << std::endl;
     }
+    string encoding = "json";
     for (int i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "-j") == 0) {
+        if (strcmp(argv[i], "-e") == 0) {
             if (i + 1 < argc) {
-                load_from_json_string(argv[i + 1]);
-            }
-        } else if (strcmp(argv[i], "-c") == 0) {
-            if (i + 1 < argc) {
-                read_from_file(argv[i + 1]);
+                encoding = argv[i + 1];
             }
         }
     }
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "-j") == 0) {
+            if (i + 1 < argc) {
+                load_from_json_string(argv[i + 1], encoding);
+            }
+        } else if (strcmp(argv[i], "-c") == 0) {
+            if (i + 1 < argc) {
+                read_from_file(argv[i + 1], encoding);
+            }
+        }
+    }
+    print();
 }

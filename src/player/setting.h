@@ -40,11 +40,13 @@ public:
 
     void find_version(const string &json_string);
 
-    void load_from_json_string(const string &json_string);
+    void load_from_json_string(const string &json_string, const string &encoding = "json");
 
-    void read_from_file(string file_path);
+    void read_from_file(string file_path, const string &encoding = "json");
 
-    void print();
+    string decode(const string &encoding, const string &encoded_string);
+
+    void print() const;
 
     void read_from_arguments(int argc, char *argv[]);
 };
