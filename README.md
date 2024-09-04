@@ -26,6 +26,10 @@ Run "start.sh" with the following parameters:
 - -p: player port number (coach port number = player port number + 2)
 - -c: config path (path should be directory and in the directory config.json should be exist)
 - -j: json config
+- -e: encoding type (default=json, [json, temp] (in temp encoding, we do not have space,
+- - , -> #c#
+  - " -> #qq#
+  - ' -> #q#
 
 ### Examples
 
