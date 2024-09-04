@@ -56,6 +56,111 @@ Run "start.sh" with the following parameters:
 - `moving_pressing_level`: pressing level (default: 50) [0 to 100]
 - `moving_use_offside_trap`: use offside trap (default: true)
 
+### Json Form Schema
+```json
+{
+  "title": "CYRUS Settings",
+  "description": "A simple form example.",
+  "type": "object",
+  "required": [
+    "firstName",
+    "lastName"
+  ],
+  "properties": {
+    "formation_name": {
+      "type": "string",
+      "enum": [
+        "433-433",
+        "433-343l",
+        "442-334",
+        "442-424",
+        "523-3232",
+        "4231-3133"
+      ]
+    },
+    "winner_formation_name": {
+      "type": "string",
+      "enum": [
+        "433-433",
+        "433-343l",
+        "442-334",
+        "442-424",
+        "523-3232",
+        "4231-3133"
+      ]
+    },
+    "loser_formation_name": {
+      "type": "string",
+      "enum": [
+        "433-433",
+        "433-343l",
+        "442-334",
+        "442-424",
+        "523-3232",
+        "4231-3133"
+      ]
+    },
+    "offensive_kick_planner_use_direct_pass": {
+      "type": "boolean",
+      "default": true
+    },
+    "offensive_kick_planner_use_lead_pass": {
+      "type": "boolean",
+      "default": true
+    },
+    "offensive_kick_planner_use_through_pass": {
+      "type": "boolean",
+      "default": true
+    },
+    "offensive_kick_planner_use_cross_pass": {
+      "type": "boolean",
+      "default": true
+    },
+    "offensive_kick_planner_use_short_dribble": {
+      "type": "boolean",
+      "default": true
+    },
+    "offensive_kick_planner_use_long_dribble": {
+      "type": "boolean",
+      "default": true
+    },
+    "offensive_kick_planner_use_sample_shot": {
+      "type": "boolean",
+      "default": true
+    },
+    "offensive_kick_planner_use_sample_pass": {
+      "type": "boolean",
+      "default": true
+    },
+    "offensive_kick_planner_use_sample_dribble": {
+      "type": "boolean",
+      "default": true
+    },
+    "moving_save_energy": {
+      "type": "number",
+      "maximum": 100,
+      "minimum": 0,
+      "default": 60
+    },
+    "moving_pressing_level": {
+      "type": "number",
+      "maximum": 100,
+      "minimum": 0,
+      "default": 50
+    },
+    "moving_use_offside_trap": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}
+```
+
+To test you can use the below links:
+
+- (rjsf-team.github.io)[https://rjsf-team.github.io/react-jsonschema-form/]
+- (brutusin.org)[http://brutusin.org/json-forms/]
+ 
 ## References
 
 The paper about Cyrus2D Base:
