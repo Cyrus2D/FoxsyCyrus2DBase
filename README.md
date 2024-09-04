@@ -37,6 +37,10 @@ Run "start.sh" with the following parameters:
 ./start.sh -t Test -p 6000 -c ~/Data/1/
 
 ./start.sh -t Test -p 6000 -j '{"version":1, "formation_name":"433-433"}'
+
+./start.sh -t Test -p 6000 -j '{"version":1, "formation_name":"433-433"}' -e json
+
+./start.sh -t Test -p 6000 -j #q#{#qq#version#qq#:1#c##qq#formation_name#qq#:#qq#433-433#qq#}#q# -e temp
 ```
 
 ### Json Settings
