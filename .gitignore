@@ -27,3 +27,14 @@ stamp-h1
 COPYING
 configure
 aclocal.m4
+src/player/Makefile.in
+src/player/Makefile
+src/trainer/Makefile
+src/trainer/Makefile.in
+src/coach/Makefile
+src/coach/Makefile.in
+Makefile.in
+Makefile
+INSTALL
+config.h
+config.h.in
