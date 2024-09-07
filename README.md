@@ -40,17 +40,17 @@ Run "start.sh" with the following parameters:
 
 ./start.sh -t Test -p 6000 -c ~/Data/1/
 
-./start.sh -t Test -p 6000 -j '{"version":1, "formation_name":"433-433"}'
+./start.sh -t Test -p 6000 -j '{"version":1, "formation_name":"433"}'
 
-./start.sh -t Test -p 6000 -j '{"version":1, "formation_name":"433-433"}' -e json
+./start.sh -t Test -p 6000 -j '{"version":1, "formation_name":"433"}' -e json
 
-./start.sh -t Test -p 6000 -j #q#{#qq#version#qq#:1#c##qq#formation_name#qq#:#qq#433-433#qq#}#q# -e temp
+./start.sh -t Test -p 6000 -j #q#{#qq#version#qq#:1#c##qq#formation_name#qq#:#qq#433#qq#}#q# -e temp
 ```
 
 ### Json Settings
-- `formation_name`: name of formation (default: "433-433") options "4231-3133", "433-343l", "433-433", "442-334", "442-424", "523-5232"
-- `winner_formation_name`: name of formation when our score is more than opponent score (default: "433-433") options "4231-3133", "433-343l", "433-433", "442-334", "442-424", "523-5232"
-- `loser_formation_name`: name of formation when opponent score is more than our score (default: "433-433") options "4231-3133", "433-343l", "433-433", "442-334", "442-424", "523-5232"
+- `formation_name`: name of formation (default: "433") options "4231-3133", "433-343l", "433", "442-334", "442-424", "523-5232"
+- `winner_formation_name`: name of formation when our score is more than opponent score (default: "433") options "4231-3133", "433-343l", "433", "442-334", "442-424", "523-5232"
+- `loser_formation_name`: name of formation when opponent score is more than our score (default: "433") options "4231-3133", "433-343l", "433", "442-334", "442-424", "523-5232"
 - `offensive_kick_planner_use_direct_pass`: use direct pass in offensive kick planner (default: true)
 - `offensive_kick_planner_use_lead_pass`: use lead pass in offensive kick planner (default: true)
 - `offensive_kick_planner_use_through_pass`: use through pass in offensive kick planner (default: true)
@@ -78,34 +78,25 @@ Run "start.sh" with the following parameters:
     "formation_name": {
       "type": "string",
       "enum": [
-        "433-433",
-        "433-343l",
-        "442-334",
-        "442-424",
-        "523-3232",
-        "4231-3133"
+        "433",
+        "442",
+        "523"
       ]
     },
     "winner_formation_name": {
       "type": "string",
       "enum": [
-        "433-433",
-        "433-343l",
-        "442-334",
-        "442-424",
-        "523-3232",
-        "4231-3133"
+        "433",
+        "442",
+        "523"
       ]
     },
     "loser_formation_name": {
       "type": "string",
       "enum": [
-        "433-433",
-        "433-343l",
-        "442-334",
-        "442-424",
-        "523-3232",
-        "4231-3133"
+        "433",
+        "442",
+        "523"
       ]
     },
     "offensive_kick_planner_use_direct_pass": {

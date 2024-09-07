@@ -12,17 +12,18 @@
 using namespace std;
 using json = nlohmann::json;
 
-class Setting {
+class Setting
+{
 public:
-    static Setting & i();
+    static Setting &i();
 
     int version = 0;
-    vector<string> formation_options = {"433-433", "433-343l", "442-334", "442-424", "523-3232", "4231-3133"};
+    vector<string> formation_options = {"433", "442", "523"};
 
-    string formation_name = "433-433";
-    string winner_formation_name = "433-433";
-    string loser_formation_name = "433-433";
-    // options: 433-433, 433-343l, 442-334, 442-424, 523-3232, 4231-3133
+    string formation_name = "433";
+    string winner_formation_name = "433";
+    string loser_formation_name = "433";
+    // options: 433, 442, 523
 
     bool offensive_kick_planner_use_direct_pass = true;
     bool offensive_kick_planner_use_lead_pass = true;
@@ -34,7 +35,7 @@ public:
     bool offensive_kick_planner_use_sample_pass = true;
     bool offensive_kick_planner_use_sample_dribble = true;
 
-    double moving_save_energy = 60; // 0 to 100
+    double moving_save_energy = 60;    // 0 to 100
     double moving_pressing_level = 50; // 0 to 100
     bool moving_use_offside_trap = true;
 
@@ -51,5 +52,4 @@ public:
     void read_from_arguments(int argc, char *argv[]);
 };
 
-
-#endif //HELIOS_BASE_SETTING_H
+#endif // HELIOS_BASE_SETTING_H
