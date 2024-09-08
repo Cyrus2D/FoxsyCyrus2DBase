@@ -4,19 +4,21 @@
 
 #include "setting.h"
 
-Setting & Setting::i() {
+Setting &Setting::i()
+{
     static Setting instance;
     return instance;
 }
 
-void Setting::find_version(const string &json_str){
+void Setting::find_version(const string &json_str)
+{
     try
     {
         json j = json::parse(json_str);
 
         if (j.contains("version"))
             version = j.at("version").get<int>();
-        std::cout<< "version: " << version << std::endl;
+        std::cout << "version: " << version << std::endl;
     }
     catch (exception &e)
     {
@@ -24,37 +26,44 @@ void Setting::find_version(const string &json_str){
     }
 }
 
-void replaceAll(std::string &str, const std::string &from, const std::string &to) {
+void replaceAll(std::string &str, const std::string &from, const std::string &to)
+{
     size_t start_pos = 0;
-    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+    while ((start_pos = str.find(from, start_pos)) != std::string::npos)
+    {
         str.replace(start_pos, from.length(), to);
         start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
     }
 }
 
-string Setting::decode(const std::string &encoding, const std::string &encoded_string) {
-    if (encoding == "json") {
-        std::cout<< "json encoding" << std::endl;
+string Setting::decode(const std::string &encoding, const std::string &encoded_string)
+{
+    if (encoding == "json")
+    {
+        std::cout << "json encoding" << std::endl;
         return encoded_string;
     }
-    else if (encoding == "temp") {
+    else if (encoding == "temp")
+    {
         // replace #qq# with "
         // replace #q# with '
         // replace #c# with ,
-        std::cout<< "temp encoding" << std::endl;
+        std::cout << "temp encoding" << std::endl;
         string decoded_string = encoded_string;
         replaceAll(decoded_string, "#qq#", "\"");
         replaceAll(decoded_string, "#q#", "'");
         replaceAll(decoded_string, "#c#", ",");
         return decoded_string;
     }
-    else {
+    else
+    {
         std::cout << "Encoding is not supported" << std::endl;
         return "json";
     }
 }
 
-void Setting::load_from_json_string(const string &json_str, const string &encoding){
+void Setting::load_from_json_string(const string &json_str, const string &encoding)
+{
     string decoded_json_str = decode(encoding, json_str);
     find_version(decoded_json_str);
     if (version == 1)
@@ -63,23 +72,29 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
         {
             json j = json::parse(decoded_json_str);
 
-            if (j.contains("formation_name")) {
+            if (j.contains("formation_name"))
+            {
                 formation_name = j.at("formation_name").get<std::string>();
-                if (std::find(formation_options.begin(), formation_options.end(), formation_name) == formation_options.end()) {
+                if (std::find(formation_options.begin(), formation_options.end(), formation_name) == formation_options.end())
+                {
                     std::cout << "Formation name is not valid" << std::endl;
                     formation_name = formation_options.at(0);
                 }
             }
-            if (j.contains("winner_formation_name")) {
+            if (j.contains("winner_formation_name"))
+            {
                 winner_formation_name = j.at("winner_formation_name").get<std::string>();
-                if (std::find(formation_options.begin(), formation_options.end(), winner_formation_name) == formation_options.end()) {
+                if (std::find(formation_options.begin(), formation_options.end(), winner_formation_name) == formation_options.end())
+                {
                     std::cout << "Formation name is not valid" << std::endl;
                     winner_formation_name = formation_options.at(0);
                 }
             }
-            if (j.contains("loser_formation_name")) {
+            if (j.contains("loser_formation_name"))
+            {
                 loser_formation_name = j.at("loser_formation_name").get<std::string>();
-                if (std::find(formation_options.begin(), formation_options.end(), loser_formation_name) == formation_options.end()) {
+                if (std::find(formation_options.begin(), formation_options.end(), loser_formation_name) == formation_options.end())
+                {
                     std::cout << "Formation name is not valid" << std::endl;
                     loser_formation_name = formation_options.at(0);
                 }
@@ -102,22 +117,30 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
                 offensive_kick_planner_use_sample_pass = j.at("offensive_kick_planner_use_sample_pass").get<bool>();
             if (j.contains("offensive_kick_planner_use_sample_dribble"))
                 offensive_kick_planner_use_sample_dribble = j.at("offensive_kick_planner_use_sample_dribble").get<bool>();
-            if (j.contains("moving_save_energy")) {
+            if (j.contains("moving_save_energy"))
+            {
                 moving_save_energy = j.at("moving_save_energy").get<double>();
-                if ( moving_save_energy < 0 )
+                if (moving_save_energy < 0)
                     moving_save_energy = 0;
-                if ( moving_save_energy > 100 )
+                if (moving_save_energy > 100)
                     moving_save_energy = 100;
             }
-            if (j.contains("pressing")) {
+            if (j.contains("pressing"))
+            {
                 pressing = j.at("pressing").get<double>();
-                if ( pressing != 0 )
+                if (pressing != 0)
                     pressing = 1;
-                if ( pressing == 0 )
+                if (pressing == 0)
                     pressing = 0;
             }
-            if (j.contains("moving_use_offside_trap"))
-                moving_use_offside_trap = j.at("moving_use_offside_trap").get<bool>();
+            if (j.contains("offside_trap"))
+            {
+                offside_trap = j.at("offside_trap").get<int>();
+                if (offside_trap != 0)
+                    offside_trap = 1;
+                if (offside_trap == 0)
+                    offside_trap = 0;
+            }
         }
         catch (exception &e)
         {
@@ -130,18 +153,22 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
     }
 }
 
-void Setting::read_from_file(string file_path, const string &encoding) {
-    if (file_path.find(".json") == string::npos) {
+void Setting::read_from_file(string file_path, const string &encoding)
+{
+    if (file_path.find(".json") == string::npos)
+    {
         if (file_path[file_path.size() - 1] == '/')
             file_path = file_path.substr(0, file_path.size() - 1);
         file_path = file_path + "/config.json";
     }
-    if (!std::filesystem::exists(file_path)) {
+    if (!std::filesystem::exists(file_path))
+    {
         std::cerr << "File does not exist - '" << file_path << "'" << std::endl;
         return;
     }
     std::ifstream file(file_path);
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         std::cerr << "Could not open the file - '" << file_path << "'" << std::endl;
         return;
     }
@@ -151,7 +178,8 @@ void Setting::read_from_file(string file_path, const string &encoding) {
     load_from_json_string(json_str, encoding);
 }
 
-void Setting::print() const {
+void Setting::print() const
+{
     std::cout << "formation_name: " << formation_name << std::endl;
     std::cout << "winner_formation_name: " << winner_formation_name << std::endl;
     std::cout << "loser_formation_name: " << loser_formation_name << std::endl;
@@ -168,25 +196,36 @@ void Setting::print() const {
     std::cout << "pressing: " << pressing << std::endl;
 }
 
-void Setting::read_from_arguments(int argc, char *argv[]){
-    for (int i = 0; i < argc; i++) {
+void Setting::read_from_arguments(int argc, char *argv[])
+{
+    for (int i = 0; i < argc; i++)
+    {
         std::cout << argv[i] << std::endl;
     }
     string encoding = "json";
-    for (int i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "-e") == 0) {
-            if (i + 1 < argc) {
+    for (int i = 1; i < argc; i++)
+    {
+        if (strcmp(argv[i], "-e") == 0)
+        {
+            if (i + 1 < argc)
+            {
                 encoding = argv[i + 1];
             }
         }
     }
-    for (int i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "-j") == 0) {
-            if (i + 1 < argc) {
+    for (int i = 1; i < argc; i++)
+    {
+        if (strcmp(argv[i], "-j") == 0)
+        {
+            if (i + 1 < argc)
+            {
                 load_from_json_string(argv[i + 1], encoding);
             }
-        } else if (strcmp(argv[i], "-c") == 0) {
-            if (i + 1 < argc) {
+        }
+        else if (strcmp(argv[i], "-c") == 0)
+        {
+            if (i + 1 < argc)
+            {
                 read_from_file(argv[i + 1], encoding);
             }
         }

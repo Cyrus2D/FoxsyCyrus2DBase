@@ -179,13 +179,13 @@ bool Bhv_BasicMove::execute(PlayerAgent *agent)
     }
 
     // G2D : offside trap
-    if (Setting::i().moving_use_offside_trap)
+    if (Setting::i().offside_trap == 1)
     {
         double first = 0.0, second = 0.0;
         const auto t3_end = wm.teammatesFromSelf().end();
-        for (auto it = wm.teammatesFromSelf().begin();
-             it != t3_end;
-             ++it)
+
+        // find the first and second closest teammates
+        for (auto it = wm.teammatesFromSelf().begin(); it != t3_end; ++it)
         {
             double x = (*it)->pos().x;
             if (x < second)
@@ -205,12 +205,14 @@ bool Bhv_BasicMove::execute(PlayerAgent *agent)
             (homePos.x > -37.5 || wm.ball().inertiaPoint(opp_min).x > -36.0) &&
             second + buf1 > me.x && wm.ball().pos().x > me.x + buf2)
         {
-            Body_GoToPoint(rcsc::Vector2D(me.x + 15.0, me.y),
-                           0.5, ServerParam::i().maxDashPower(), // maximum dash power
-                           ServerParam::i().maxDashPower(),      // preferred dash speed
-                           2,                                    // preferred reach cycle
-                           true,                                 // save recovery
-                           5.0)
+            Body_GoToPoint(
+                rcsc::Vector2D(me.x + 15.0, me.y),
+                0.5,
+                ServerParam::i().maxDashPower(), // maximum dash power
+                ServerParam::i().maxDashPower(), // preferred dash speed
+                2,                               // preferred reach cycle
+                true,                            // save recovery
+                5.0)
                 .execute(agent);
 
             if (wm.kickableOpponent() && wm.ball().distFromSelf() < 12.0) // C2D
