@@ -38,6 +38,7 @@ public:
     double moving_save_energy = 60;    // 0 to 100
     double pressing = 0; // 0 or 1
     int offside_trap = 0;
+    double aggressiveness = 0.5; // 0 to 1
 
     void find_version(const string &json_string);
 

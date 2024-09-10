@@ -152,6 +152,12 @@ Run "start.sh" with the following parameters:
       "maximum" : 1,
       "minimum" : 0,
       "default" : 0
+    },
+    "aggressiveness": {
+      "type": "number",
+      "maximum" : 1,
+      "minimum" : 0,
+      "default" : 0
     }
   }
 }

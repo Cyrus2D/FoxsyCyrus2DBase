@@ -141,6 +141,15 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
                 if (offside_trap == 0)
                     offside_trap = 0;
             }
+
+            if (j.contains("aggressiveness"))
+            {
+                aggressiveness = j.at("aggressiveness").get<double>();
+                if (aggressiveness < 0)
+                    aggressiveness = 0;
+                if (aggressiveness > 1)
+                    aggressiveness = 1;
+            }
         }
         catch (exception &e)
         {
