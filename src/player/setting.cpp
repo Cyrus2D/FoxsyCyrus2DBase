@@ -57,9 +57,9 @@ string Setting::decode(const std::string &encoding, const std::string &encoded_s
 void Setting::load_from_json_string(const string &json_str, const string &encoding){
     string decoded_json_str = decode(encoding, json_str);
     find_version(decoded_json_str);
-    if (version == 1)
+    if (version == 1) 
     {
-        try
+        try 
         {
             json j = json::parse(decoded_json_str);
 
@@ -109,22 +109,35 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
                 if ( moving_save_energy > 100 )
                     moving_save_energy = 100;
             }
-            if (j.contains("moving_pressing_level")) {
-                moving_pressing_level = j.at("moving_pressing_level").get<double>();
-                if ( moving_pressing_level < 0 )
-                    moving_pressing_level = 0;
-                if ( moving_pressing_level > 100 )
-                    moving_pressing_level = 100;
+            if (j.contains("pressing")) {
+                pressing = j.at("pressing").get<double>();
+                if (pressing != 0)
+                    pressing = 1;
+                if (pressing == 0)
+                    pressing = 0;
             }
-            if (j.contains("moving_use_offside_trap"))
-                moving_use_offside_trap = j.at("moving_use_offside_trap").get<bool>();
+            if (j.contains("offside_trap")) {
+                offside_trap = j.at("offside_trap").get<int>();
+                if (offside_trap != 0)
+                    offside_trap = 1;
+                if (offside_trap == 0)
+                    offside_trap = 0;
+            }
+
+            if (j.contains("aggressiveness")) {
+                aggressiveness = j.at("aggressiveness").get<double>();
+                if (aggressiveness < 0)
+                    aggressiveness = 0;
+                if (aggressiveness > 1)
+                    aggressiveness = 1;
+            }
         }
-        catch (exception &e)
+        catch (exception &e) 
         {
             std::cout << "Error in parsing json string: " << e.what() << std::endl;
         }
     }
-    else
+    else 
     {
         std::cout << "Version is not supported or it was not found in json" << std::endl;
     }
@@ -165,7 +178,7 @@ void Setting::print() const {
     std::cout << "offensive_kick_planner_use_sample_pass: " << offensive_kick_planner_use_sample_pass << std::endl;
     std::cout << "offensive_kick_planner_use_sample_dribble: " << offensive_kick_planner_use_sample_dribble << std::endl;
     std::cout << "moving_save_energy: " << moving_save_energy << std::endl;
-    std::cout << "moving_pressing_level: " << moving_pressing_level << std::endl;
+    std::cout << "pressing: " << pressing << std::endl;
 }
 
 void Setting::read_from_arguments(int argc, char *argv[]){

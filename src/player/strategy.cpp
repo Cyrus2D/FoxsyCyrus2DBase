@@ -1320,13 +1320,20 @@ Strategy::getPosition( const int unum ) const
 
     try
     {
-        return M_positions.at( number - 1 );
+        Vector2D pos = M_positions.at(number - 1);
+        Setting &setting = Setting::i();
+        // if aggressive mode just move all players to left
+        double new_pos = pos.x + ((pos.x/10) * ((0.5 - setting.aggressiveness)/0.5));
+        if (new_pos > -52.5)
+            pos.x = new_pos;
+        
+        return pos;
     }
-    catch ( std::exception & e )
+    catch ( std::exception & e ) 
     {
         std::cerr<< __FILE__ << ':' << __LINE__ << ':'
-                 << " Exception caught! " << e.what()
-                 << std::endl;
+                  << " Exception caught! " << e.what()
+                  << std::endl;
         return Vector2D::INVALIDATED;
     }
 }

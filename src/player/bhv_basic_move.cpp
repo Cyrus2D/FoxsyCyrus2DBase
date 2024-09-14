@@ -5,7 +5,7 @@
 
  Cyrus2D
  Modified by Omid Amini, Nader Zare
- 
+
  Gliders2d
  Modified by Mikhail Prokopenko, Peter Wang
 
@@ -64,11 +64,11 @@ using namespace rcsc;
 /*!
 
  */
-bool
+bool 
 Bhv_BasicMove::execute( PlayerAgent * agent )
 {
     dlog.addText( Logger::TEAM,
-                  __FILE__": Bhv_BasicMove" );
+                 __FILE__": Bhv_BasicMove" );
 
     const WorldModel & wm = agent->world();
 
@@ -78,7 +78,7 @@ Bhv_BasicMove::execute( PlayerAgent * agent )
     double doTackleProb = 0.8;
     if (wm.ball().pos().x < 0.0)
     {
-      doTackleProb = 0.5;
+        doTackleProb = 0.5;
     }
 
     if ( Bhv_BasicTackle( doTackleProb, 80.0 ).execute( agent ) )
@@ -98,14 +98,14 @@ Bhv_BasicMove::execute( PlayerAgent * agent )
     // C2D: Helios 18 Tune removed -> replace with BNN
     // bool helios2018 = false;
     // if (wm.opponentTeamName().find("HELIOS2018") != std::string::npos)
-	// helios2018 = true;
-//    if (std::min(self_min, mate_min) < opp_min){
-//
-//    }else{
-//        if (Bhv_BasicBlock().execute(agent)){
-//            return true;
-//        }
-//    }
+    // helios2018 = true;
+    //    if (std::min(self_min, mate_min) < opp_min){
+    //
+    //    }else{
+    //        if (Bhv_BasicBlock().execute(agent)){
+    //            return true;
+    //        }
+    //    }
     // G2d: role
     int role = Strategy::i().roleNumber( wm.self().unum() );
 
@@ -185,10 +185,13 @@ Bhv_BasicMove::execute( PlayerAgent * agent )
 
 
 
-// G2D : offside trap
-    if (Setting::i().moving_use_offside_trap){
+    // G2D : offside trap
+    if (Setting::i().offside_trap == 1)
+    {
         double first = 0.0, second = 0.0;
         const auto t3_end = wm.teammatesFromSelf().end();
+
+        // find the first and second closest teammates
         for ( auto it = wm.teammatesFromSelf().begin();
               it != t3_end;
               ++it )
