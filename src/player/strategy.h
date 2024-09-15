@@ -118,33 +118,6 @@ private:
     rcsc::Formation::Ptr M_indirect_freekick_opp_formation;
     rcsc::Formation::Ptr M_indirect_freekick_our_formation;
 
-    rcsc::Formation::Ptr M_before_kick_off_formation_winner;
-    rcsc::Formation::Ptr M_normal_formation_winner;
-    rcsc::Formation::Ptr M_defense_formation_winner;
-    rcsc::Formation::Ptr M_offense_formation_winner;
-    rcsc::Formation::Ptr M_goal_kick_opp_formation_winner;
-    rcsc::Formation::Ptr M_goal_kick_our_formation_winner;
-    rcsc::Formation::Ptr M_goalie_catch_opp_formation_winner;
-    rcsc::Formation::Ptr M_goalie_catch_our_formation_winner;
-    rcsc::Formation::Ptr M_kickin_our_formation_winner;
-    rcsc::Formation::Ptr M_setplay_opp_formation_winner;
-    rcsc::Formation::Ptr M_setplay_our_formation_winner;
-    rcsc::Formation::Ptr M_indirect_freekick_opp_formation_winner;
-    rcsc::Formation::Ptr M_indirect_freekick_our_formation_winner;
-
-    rcsc::Formation::Ptr M_before_kick_off_formation_loser;
-    rcsc::Formation::Ptr M_normal_formation_loser;
-    rcsc::Formation::Ptr M_defense_formation_loser;
-    rcsc::Formation::Ptr M_offense_formation_loser;
-    rcsc::Formation::Ptr M_goal_kick_opp_formation_loser;
-    rcsc::Formation::Ptr M_goal_kick_our_formation_loser;
-    rcsc::Formation::Ptr M_goalie_catch_opp_formation_loser;
-    rcsc::Formation::Ptr M_goalie_catch_our_formation_loser;
-    rcsc::Formation::Ptr M_kickin_our_formation_loser;
-    rcsc::Formation::Ptr M_setplay_opp_formation_loser;
-    rcsc::Formation::Ptr M_setplay_our_formation_loser;
-    rcsc::Formation::Ptr M_indirect_freekick_opp_formation_loser;
-    rcsc::Formation::Ptr M_indirect_freekick_our_formation_loser;
 
     int M_goalie_unum;
 
@@ -183,8 +156,6 @@ public:
 
     bool init( rcsc::CmdLineParser & cmd_parser );
     bool read( const std::string & config_dir );
-    bool readWinner( const std::string & config_dir );
-    bool readLoser( const std::string & config_dir );
 
 
     //
@@ -227,8 +198,6 @@ private:
 
     rcsc::Formation::Ptr getFormation( const rcsc::WorldModel & wm ) const;
     rcsc::Formation::Ptr getFormation_normal( const rcsc::WorldModel & wm ) const;
-    rcsc::Formation::Ptr getFormation_winner( const rcsc::WorldModel & wm ) const;
-    rcsc::Formation::Ptr getFormation_loser( const rcsc::WorldModel & wm ) const;
 
 public:
     static

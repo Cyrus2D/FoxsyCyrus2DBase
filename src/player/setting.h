@@ -20,8 +20,6 @@ public:
     vector<string> formation_options = {"433", "442", "523"};
 
     string formation_name = "433";
-    string winner_formation_name = "433";
-    string loser_formation_name = "433";
     // options: 433, 442, 523
 
     bool offensive_kick_planner_use_direct_pass = true;

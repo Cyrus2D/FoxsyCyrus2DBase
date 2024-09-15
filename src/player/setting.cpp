@@ -70,20 +70,6 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
                     formation_name = formation_options.at(0);
                 }
             }
-            if (j.contains("winner_formation_name")) {
-                winner_formation_name = j.at("winner_formation_name").get<std::string>();
-                if (std::find(formation_options.begin(), formation_options.end(), winner_formation_name) == formation_options.end()) {
-                    std::cout << "Formation name is not valid" << std::endl;
-                    winner_formation_name = formation_options.at(0);
-                }
-            }
-            if (j.contains("loser_formation_name")) {
-                loser_formation_name = j.at("loser_formation_name").get<std::string>();
-                if (std::find(formation_options.begin(), formation_options.end(), loser_formation_name) == formation_options.end()) {
-                    std::cout << "Formation name is not valid" << std::endl;
-                    loser_formation_name = formation_options.at(0);
-                }
-            }
             if (j.contains("offensive_kick_planner_use_direct_pass"))
                 offensive_kick_planner_use_direct_pass = j.at("offensive_kick_planner_use_direct_pass").get<bool>();
             if (j.contains("offensive_kick_planner_use_lead_pass"))
@@ -166,8 +152,6 @@ void Setting::read_from_file(string file_path, const string &encoding) {
 
 void Setting::print() const {
     std::cout << "formation_name: " << formation_name << std::endl;
-    std::cout << "winner_formation_name: " << winner_formation_name << std::endl;
-    std::cout << "loser_formation_name: " << loser_formation_name << std::endl;
     std::cout << "offensive_kick_planner_use_direct_pass: " << offensive_kick_planner_use_direct_pass << std::endl;
     std::cout << "offensive_kick_planner_use_lead_pass: " << offensive_kick_planner_use_lead_pass << std::endl;
     std::cout << "offensive_kick_planner_use_through_pass: " << offensive_kick_planner_use_through_pass << std::endl;

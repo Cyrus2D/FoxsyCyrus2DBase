@@ -49,8 +49,6 @@ Run "start.sh" with the following parameters:
 
 ### Json Settings
 - `formation_name`: name of formation (default: "433") options "4231-3133", "433-343l", "433", "442-334", "442-424", "523-5232"
-- `winner_formation_name`: name of formation when our score is more than opponent score (default: "433") options "4231-3133", "433-343l", "433", "442-334", "442-424", "523-5232"
-- `loser_formation_name`: name of formation when opponent score is more than our score (default: "433") options "4231-3133", "433-343l", "433", "442-334", "442-424", "523-5232"
 - `offensive_kick_planner_use_direct_pass`: use direct pass in offensive kick planner (default: true)
 - `offensive_kick_planner_use_lead_pass`: use lead pass in offensive kick planner (default: true)
 - `offensive_kick_planner_use_through_pass`: use through pass in offensive kick planner (default: true)
@@ -76,22 +74,6 @@ Run "start.sh" with the following parameters:
   ],
   "properties": {
     "formation_name": {
-      "type": "string",
-      "enum": [
-        "433",
-        "442",
-        "523"
-      ]
-    },
-    "winner_formation_name": {
-      "type": "string",
-      "enum": [
-        "433",
-        "442",
-        "523"
-      ]
-    },
-    "loser_formation_name": {
       "type": "string",
       "enum": [
         "433",
