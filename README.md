@@ -1,4 +1,4 @@
-a# Cyrus2D Base 
+# Cyrus2D Base 
 [![GitHub license](https://img.shields.io/github/license/helios-base/helios-base)](https://github.com/helios-base/helios-base/blob/master/LISENCE)
 
 Cyrus2D-base is a sample team for the RoboCup Soccer 2D Simulator.
