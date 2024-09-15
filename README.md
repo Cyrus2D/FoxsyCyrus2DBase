@@ -60,7 +60,7 @@ Run "start.sh" with the following parameters:
 - `offensive_kick_planner_use_sample_dribble`: use sample dribble in offensive kick planner (default: true) [to search more than 1 layer]
 - `moving_save_energy`: save energy level (default: 60) [0 to 100]
 - `pressing` : 0 or 1 - 0 means no pressing and 1 means pressing
-- `offside_trap`: use offside trap (default: true)
+- `offside_trap`: 0 or 1 - 0 means no offside trap and 1 means offside trap
 
 ### Json Form Schema
 ```json
