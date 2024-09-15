@@ -153,7 +153,7 @@ Bhv_BasicMove::execute( PlayerAgent * agent )
 
     } // end of block
 
-    double pressing_level = static_cast<double>(Setting::i().moving_pressing_level) / 100.0;
+    double pressing_level = static_cast<double>(Setting::i().pressing);
 
     // G2d: pressing
     int pressing = static_cast<int>(26.0 * pressing_level);
