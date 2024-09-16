@@ -1098,7 +1098,7 @@ Strategy::getPosition( const int unum ) const
         Vector2D pos = M_positions.at(number - 1);
         Setting &setting = Setting::i();
         // if aggressive mode just move all players to left
-        double new_pos = pos.x + ((pos.x/10) * ((0.5 - setting.aggressiveness)/0.5));
+        double new_pos = (pos.x+100) + (( pos.x+100)*(setting.aggressiveness-0.5))/5 - 100;
         if (new_pos > -52.5)
             pos.x = new_pos;
         
