@@ -57,9 +57,9 @@ string Setting::decode(const std::string &encoding, const std::string &encoded_s
 void Setting::load_from_json_string(const string &json_str, const string &encoding){
     string decoded_json_str = decode(encoding, json_str);
     find_version(decoded_json_str);
-    if (version == 1) 
+    if (version == 1)
     {
-        try 
+        try
         {
             json j = json::parse(decoded_json_str);
 
@@ -118,12 +118,12 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
                     aggressiveness = 1;
             }
         }
-        catch (exception &e) 
+        catch (exception &e)
         {
             std::cout << "Error in parsing json string: " << e.what() << std::endl;
         }
     }
-    else 
+    else
     {
         std::cout << "Version is not supported or it was not found in json" << std::endl;
     }

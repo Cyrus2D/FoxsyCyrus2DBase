@@ -5,7 +5,7 @@
 
  Cyrus2D
  Modified by Omid Amini, Nader Zare
-
+ 
  Gliders2d
  Modified by Mikhail Prokopenko, Peter Wang
 
@@ -64,11 +64,11 @@ using namespace rcsc;
 /*!
 
  */
-bool 
+bool
 Bhv_BasicMove::execute( PlayerAgent * agent )
 {
     dlog.addText( Logger::TEAM,
-                 __FILE__": Bhv_BasicMove" );
+                  __FILE__": Bhv_BasicMove" );
 
     const WorldModel & wm = agent->world();
 
@@ -78,7 +78,7 @@ Bhv_BasicMove::execute( PlayerAgent * agent )
     double doTackleProb = 0.8;
     if (wm.ball().pos().x < 0.0)
     {
-        doTackleProb = 0.5;
+      doTackleProb = 0.5;
     }
 
     if ( Bhv_BasicTackle( doTackleProb, 80.0 ).execute( agent ) )
