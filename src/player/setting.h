@@ -49,6 +49,6 @@ public:
 
     void read_from_arguments(int argc, char *argv[]);
 };
- 
+
 
 #endif //HELIOS_BASE_SETTING_H
