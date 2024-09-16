@@ -38,3 +38,4 @@ Makefile
 INSTALL
 config.h
 config.h.in
+.vscode/
