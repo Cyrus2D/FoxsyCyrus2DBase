@@ -17,10 +17,10 @@ public:
     static Setting & i();
 
     int version = 0;
-    vector<string> formation_options = {"433", "442", "523"};
+    vector<string> formation_options = {"433", "442", "532"};
 
     string formation_name = "433";
-    // options: 433, 442, 523
+    // options: 433, 442, 532
 
     bool offensive_kick_planner_use_direct_pass = true;
     bool offensive_kick_planner_use_lead_pass = true;

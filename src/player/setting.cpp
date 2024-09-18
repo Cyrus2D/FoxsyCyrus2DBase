@@ -108,6 +108,9 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
                     offside_trap = 1;
                 if (offside_trap == 0)
                     offside_trap = 0;
+                
+
+                std::cout << "offside_trap: " << offside_trap << std::endl;
             }
 
             if (j.contains("aggressiveness")) {
@@ -116,6 +119,9 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
                     aggressiveness = 0;
                 if (aggressiveness > 1)
                     aggressiveness = 1;
+                
+
+                std::cout << "aggressiveness: " << aggressiveness << std::endl;
             }
         }
         catch (exception &e)

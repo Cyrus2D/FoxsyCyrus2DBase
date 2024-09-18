@@ -612,6 +612,15 @@ Strategy::updatePosition( const WorldModel & wm )
     M_positions.clear();
     f->getPositions( ball_pos, M_positions );
 
+    for ( int unum = 1; unum <= 11; ++unum ) {
+        Setting &setting = Setting::i();
+        Vector2D &pos = M_positions[unum - 1];
+        // if aggressive mode just move all players to left
+        double new_pos = (pos.x+100) + (( pos.x+100)*(setting.aggressiveness-0.5))/5 - 100;
+        if (new_pos > -52.5)
+            pos.x = new_pos;
+    }
+
     // G2d: various states
     bool indFK = false;
     if ( ( wm.gameMode().type() == GameMode::BackPass_
@@ -1096,11 +1105,6 @@ Strategy::getPosition( const int unum ) const
     try
     {
         Vector2D pos = M_positions.at(number - 1);
-        Setting &setting = Setting::i();
-        // if aggressive mode just move all players to left
-        double new_pos = (pos.x+100) + (( pos.x+100)*(setting.aggressiveness-0.5))/5 - 100;
-        if (new_pos > -52.5)
-            pos.x = new_pos;
         
         return pos;
     }
