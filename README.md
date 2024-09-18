@@ -61,6 +61,7 @@ Run "start.sh" with the following parameters:
 - `moving_save_energy`: save energy level (default: 60) [0 to 100]
 - `pressing` : 0 or 1 - 0 means no pressing and 1 means pressing
 - `offside_trap`: 0 or 1 - 0 means no offside trap and 1 means offside trap
+- `aggressiveness`: 0 to 1 - 0.5 means no, 0.5 to 1 means more aggresive and 0 to 0.5 means less 
 
 ### Json Form Schema
 ```json
@@ -139,7 +140,7 @@ Run "start.sh" with the following parameters:
       "type": "number",
       "maximum" : 1,
       "minimum" : 0,
-      "default" : 0
+      "default" : 0.5
     }
   }
 }
