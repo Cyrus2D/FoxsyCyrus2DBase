@@ -40,17 +40,15 @@ Run "start.sh" with the following parameters:
 
 ./start.sh -t Test -p 6000 -c ~/Data/1/
 
-./start.sh -t Test -p 6000 -j '{"version":1, "formation_name":"433-433"}'
+./start.sh -t Test -p 6000 -j '{"version":1,"formation_name":"433"}'
 
-./start.sh -t Test -p 6000 -j '{"version":1, "formation_name":"433-433"}' -e json
+./start.sh -t Test -p 6000 -j '{"version":1,"formation_name":"433"}' -e json
 
-./start.sh -t Test -p 6000 -j #q#{#qq#version#qq#:1#c##qq#formation_name#qq#:#qq#433-433#qq#}#q# -e temp
+./start.sh -t Test -p 6000 -j #q#{#qq#version#qq#:1#c##qq#formation_name#qq#:#qq#433#qq#}#q# -e temp
 ```
 
 ### Json Settings
-- `formation_name`: name of formation (default: "433-433") options "4231-3133", "433-343l", "433-433", "442-334", "442-424", "523-5232"
-- `winner_formation_name`: name of formation when our score is more than opponent score (default: "433-433") options "4231-3133", "433-343l", "433-433", "442-334", "442-424", "523-5232"
-- `loser_formation_name`: name of formation when opponent score is more than our score (default: "433-433") options "4231-3133", "433-343l", "433-433", "442-334", "442-424", "523-5232"
+- `formation_name`: name of formation (default: "433") options "433", "442", "532"
 - `offensive_kick_planner_use_direct_pass`: use direct pass in offensive kick planner (default: true)
 - `offensive_kick_planner_use_lead_pass`: use lead pass in offensive kick planner (default: true)
 - `offensive_kick_planner_use_through_pass`: use through pass in offensive kick planner (default: true)
@@ -61,8 +59,9 @@ Run "start.sh" with the following parameters:
 - `offensive_kick_planner_use_sample_pass`: use sample pass in offensive kick planner (default: true) [to search more than 1 layer]
 - `offensive_kick_planner_use_sample_dribble`: use sample dribble in offensive kick planner (default: true) [to search more than 1 layer]
 - `moving_save_energy`: save energy level (default: 60) [0 to 100]
-- `moving_pressing_level`: pressing level (default: 50) [0 to 100]
-- `moving_use_offside_trap`: use offside trap (default: true)
+- `pressing` : 0 or 1 - 0 means no pressing and 1 means pressing
+- `offside_trap`: 0 or 1 - 0 means no offside trap and 1 means offside trap
+- `aggressiveness`: 0 to 1 - 0.5 means no, 0.5 to 1 means more aggresive and 0 to 0.5 means less 
 
 ### Json Form Schema
 ```json
@@ -78,34 +77,9 @@ Run "start.sh" with the following parameters:
     "formation_name": {
       "type": "string",
       "enum": [
-        "433-433",
-        "433-343l",
-        "442-334",
-        "442-424",
-        "523-3232",
-        "4231-3133"
-      ]
-    },
-    "winner_formation_name": {
-      "type": "string",
-      "enum": [
-        "433-433",
-        "433-343l",
-        "442-334",
-        "442-424",
-        "523-3232",
-        "4231-3133"
-      ]
-    },
-    "loser_formation_name": {
-      "type": "string",
-      "enum": [
-        "433-433",
-        "433-343l",
-        "442-334",
-        "442-424",
-        "523-3232",
-        "4231-3133"
+        "433",
+        "442",
+        "532"
       ]
     },
     "offensive_kick_planner_use_direct_pass": {
@@ -150,15 +124,23 @@ Run "start.sh" with the following parameters:
       "minimum": 0,
       "default": 60
     },
-    "moving_pressing_level": {
+    "pressing": {
       "type": "number",
-      "maximum": 100,
+      "maximum": 1,
       "minimum": 0,
-      "default": 50
+      "default": 0
     },
-    "moving_use_offside_trap": {
-      "type": "boolean",
-      "default": true
+    "offside_trap": {
+      "type": "number",
+      "maximum" : 1,
+      "minimum" : 0,
+      "default" : 0
+    },
+    "aggressiveness": {
+      "type": "number",
+      "maximum" : 1,
+      "minimum" : 0,
+      "default" : 0.5
     }
   }
 }

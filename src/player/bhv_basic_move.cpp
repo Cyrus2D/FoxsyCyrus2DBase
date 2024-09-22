@@ -98,14 +98,14 @@ Bhv_BasicMove::execute( PlayerAgent * agent )
     // C2D: Helios 18 Tune removed -> replace with BNN
     // bool helios2018 = false;
     // if (wm.opponentTeamName().find("HELIOS2018") != std::string::npos)
-	// helios2018 = true;
-//    if (std::min(self_min, mate_min) < opp_min){
-//
-//    }else{
-//        if (Bhv_BasicBlock().execute(agent)){
-//            return true;
-//        }
-//    }
+    // helios2018 = true;
+    //    if (std::min(self_min, mate_min) < opp_min){
+    //
+    //    }else{
+    //        if (Bhv_BasicBlock().execute(agent)){
+    //            return true;
+    //        }
+    //    }
     // G2d: role
     int role = Strategy::i().roleNumber( wm.self().unum() );
 
@@ -153,7 +153,7 @@ Bhv_BasicMove::execute( PlayerAgent * agent )
 
     } // end of block
 
-    double pressing_level = static_cast<double>(Setting::i().moving_pressing_level) / 100.0;
+    double pressing_level = static_cast<double>(Setting::i().pressing);
 
     // G2d: pressing
     int pressing = static_cast<int>(26.0 * pressing_level);
@@ -185,10 +185,13 @@ Bhv_BasicMove::execute( PlayerAgent * agent )
 
 
 
-// G2D : offside trap
-    if (Setting::i().moving_use_offside_trap){
+    // G2D : offside trap
+    if (Setting::i().offside_trap == 1)
+    {
         double first = 0.0, second = 0.0;
         const auto t3_end = wm.teammatesFromSelf().end();
+
+        // find the first and second closest teammates
         for ( auto it = wm.teammatesFromSelf().begin();
               it != t3_end;
               ++it )
