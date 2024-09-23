@@ -38,14 +38,14 @@ string Setting::decode(const std::string &encoding, const std::string &encoded_s
         return encoded_string;
     }
     else if (encoding == "temp") {
-        // replace #qq# with "
-        // replace #q# with '
-        // replace #c# with ,
+        // replace @qq@ with "
+        // replace @q@ with '
+        // replace @c@ with ,
         std::cout<< "temp encoding" << std::endl;
         string decoded_string = encoded_string;
-        replaceAll(decoded_string, "#qq#", "\"");
-        replaceAll(decoded_string, "#q#", "'");
-        replaceAll(decoded_string, "#c#", ",");
+        replaceAll(decoded_string, "@qq@", "\"");
+        replaceAll(decoded_string, "@q@", "'");
+        replaceAll(decoded_string, "@c@", ",");
         return decoded_string;
     }
     else {
