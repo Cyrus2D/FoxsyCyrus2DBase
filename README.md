@@ -27,9 +27,9 @@ Run "start.sh" with the following parameters:
 - -c: config path (path should be directory and in the directory config.json should be exist)
 - -j: json config
 - -e: encoding type (default=json, [json, temp] (in temp encoding, we do not have space,
-- - , -> #c#
-  - " -> #qq#
-  - ' -> #q#
+- - , -> @c@
+  - " -> @qq@
+  - ' -> @q@
 
 ### Examples
 
@@ -62,6 +62,9 @@ Run "start.sh" with the following parameters:
 - `pressing` : 0 or 1 - 0 means no pressing and 1 means pressing
 - `offside_trap`: 0 or 1 - 0 means no offside trap and 1 means offside trap
 - `aggressiveness`: 0 to 1 - 0.5 means no, 0.5 to 1 means more aggresive and 0 to 0.5 means less 
+- `min_type_id`: minimum type id of players to be considered in the team (default: 0)
+- `max_type_id`: maximum type id of players to be considered in the team (default: 0)
+- `player_type_ids`: list of player type ids to be considered in the team (default: [])
 
 ### Json Form Schema
 ```json
