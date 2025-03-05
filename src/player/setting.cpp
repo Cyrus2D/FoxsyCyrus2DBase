@@ -123,6 +123,27 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
 
                 std::cout << "aggressiveness: " << aggressiveness << std::endl;
             }
+
+            // int min_type_id = 0;
+            // int max_type_id = 17;
+            if (j.contains("min_type_id")) {
+                min_type_id = j.at("min_type_id").get<int>();
+                if (min_type_id < 0)
+                    min_type_id = 0;
+                std::cout << "min_type_id: " << min_type_id << std::endl;
+            }
+            if (j.contains("max_type_id")) {
+                max_type_id = j.at("max_type_id").get<int>();
+                if (max_type_id > 35)
+                    max_type_id = 35;
+                std::cout << "max_type_id: " << max_type_id << std::endl;
+            }
+            if (j.contains("player_type_ids")) {
+                player_type_ids = j.at("player_type_ids").get<vector<int>>();
+                for (int i = 0; i < player_type_ids.size(); i++) {
+                    std::cout << "player_type_ids[" << i << "]: " << player_type_ids[i] << std::endl;
+                }
+            }
         }
         catch (exception &e)
         {
@@ -169,6 +190,8 @@ void Setting::print() const {
     std::cout << "offensive_kick_planner_use_sample_dribble: " << offensive_kick_planner_use_sample_dribble << std::endl;
     std::cout << "moving_save_energy: " << moving_save_energy << std::endl;
     std::cout << "pressing: " << pressing << std::endl;
+    std::cout << "min_type_id: " << min_type_id << std::endl;
+    std::cout << "max_type_id: " << max_type_id << std::endl;
 }
 
 void Setting::read_from_arguments(int argc, char *argv[]){

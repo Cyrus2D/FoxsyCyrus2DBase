@@ -29,7 +29,7 @@
 #endif
 
 #include "sample_coach.h"
-
+#include "../player/setting.h"
 #include <rcsc/common/abstract_client.h>
 #include <rcsc/param/cmd_line_parser.h>
 
@@ -60,6 +60,8 @@ sigExitHandle( int )
 int
 main( int argc, char **argv )
 {
+    Setting::i().read_from_arguments(argc, argv);
+    
     struct sigaction sig_action ;
     sig_action.sa_handler = &sigExitHandle ;
     sig_action.sa_flags = 0;

@@ -1,0 +1,7 @@
+{
+    "version":1,
+    "formation_name":"433",
+    "min_type_id":18,
+    "max_type_id":35,
+    "player_type_ids":[18,19,20,21,22,23,24,25,26,27,34]
+}

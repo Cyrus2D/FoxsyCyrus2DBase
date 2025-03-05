@@ -399,6 +399,13 @@ if [ "${usecoach}" = "true" ]; then
   coachopt="${coachopt} --debug_server_port ${debug_server_port}"
   coachopt="${coachopt} ${offline_logging}"
   coachopt="${coachopt} ${debugopt}"
+  coachopt="${coachopt} -e ${encoding}"
+  if [ X"${json_config}" != X'' ]; then
+    coachopt="${coachopt} -j ${json_config}"
+  fi
+  if [ X"${config_path}" != X'' ]; then
+    coachopt="${coachopt} -c ${config_path}"
+  fi
 
 
   if  [ X"${offline_mode}" != X'' ]; then

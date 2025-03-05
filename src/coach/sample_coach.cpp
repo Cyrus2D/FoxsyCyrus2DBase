@@ -29,7 +29,7 @@
 #endif
 
 #include "sample_coach.h"
-
+#include "../player/setting.h"
 #include "sample_freeform_message.h"
 
 #include <rcsc/coach/coach_command.h>
@@ -266,7 +266,65 @@ SampleCoach::doSubstitute()
          && world().time().cycle() == 0
          && world().time().stopped() > 10 )
     {
-        doFirstSubstitute();
+        if (Setting::i().player_type_ids.size() > 0)
+        {
+            for (int i = 0; i < 11; i++)
+            {
+                if (i >= Setting::i().player_type_ids.size())
+                {
+                    std::cout<<"Player type is not available for player "<<i + 1<<std::endl;
+                    PlayerTypePtrCont candidates;
+
+                    int start_id = Setting::i().min_type_id;
+                    int end_id = Setting::i().max_type_id;
+                
+                    for ( std::vector< int >::const_iterator
+                              id = world().availablePlayerTypeId().begin(),
+                              end = world().availablePlayerTypeId().end();
+                          id != end;
+                          ++id )
+                    {
+                        if ( std::find(Setting::i().player_type_ids.begin(),
+                                       Setting::i().player_type_ids.end(),
+                                       *id)
+                             != Setting::i().player_type_ids.end() )
+                        {
+                            continue;
+                        }
+                        const PlayerType * param = PlayerTypeSet::i().get( *id );
+                        if ( ! param )
+                        {
+                            std::cerr << config().teamName() << " coach: "
+                                      << world().time()
+                                      << " : Could not get player type. id=" << *id << std::endl;
+                            continue;
+                        }
+                
+                        if (*id < start_id || *id > end_id)
+                        {
+                            continue;
+                        }
+                
+                        candidates.push_back( param );
+                        std::cout<<"-- Player type "<<*id<<" is available for player "<<i + 1<<std::endl;
+                    }
+
+
+                    int type = getFastestType( candidates );
+                    std::cout<<"substituteTo: "<<i + 1<<" "<<type<<std::endl;
+                    substituteTo( i + 1, type );
+                }
+                else
+                {
+                    std::cout<<"substituteTo: "<<i + 1<<" "<<Setting::i().player_type_ids[i]<<std::endl;
+                    substituteTo(i + 1, Setting::i().player_type_ids[i]);
+                }
+            }
+        }
+        else
+        {
+            doFirstSubstitute();
+        }
         S_first_substituted = true;
 
         return;
@@ -300,8 +358,13 @@ SampleCoach::doFirstSubstitute()
                   //"  krand"
                   //" effmax effmin"
                   "\n" );
-
-    for ( int id = 0; id < PlayerParam::i().playerTypes(); ++id )
+    int player_types_number = PlayerParam::i().playerTypes();
+    int start_id = Setting::i().min_type_id;
+    int end_id = Setting::i().max_type_id;
+    std::cout<<"player_types_number: "<<player_types_number<<std::endl;
+    std::cout<<"start_id: "<<start_id<<std::endl;
+    std::cout<<"end_id: "<<end_id<<std::endl;
+    for ( int id = start_id; id <= end_id ; ++id )
     {
         const PlayerType * param = PlayerTypeSet::i().get( id );
 
@@ -312,14 +375,14 @@ SampleCoach::doFirstSubstitute()
             continue;
         }
 
-        if ( id == Hetero_Default
-             && PlayerParam::i().allowMultDefaultType() )
-        {
-            for ( int i = 0; i <= MAX_PLAYER; ++i )
-            {
-                candidates.push_back( param );
-            }
-        }
+        // if ( id == Hetero_Default
+        //      && PlayerParam::i().allowMultDefaultType() )
+        // {
+        //     for ( int i = 0; i <= MAX_PLAYER; ++i )
+        //     {
+        //         candidates.push_back( param );
+        //     }
+        // }
 
         for ( int i = 0; i < PlayerParam::i().ptMax(); ++i )
         {
@@ -331,7 +394,7 @@ SampleCoach::doFirstSubstitute()
                       //" %.3f"
                       //"  %4.1f"
                       //"  %.5f"
-                      "  %.3f"
+                      "  %.3f  %.3f"
                       //"  %.2f"
                       //"  %.3f  %.3f"
                       "\n",
@@ -344,7 +407,7 @@ SampleCoach::doFirstSubstitute()
                       //param->playerDecay(),
                       //param->inertiaMoment(),
                       //param->dashPowerRate(),
-                      param->kickableArea()
+                      param->kickableArea(), param->kickableMargin()
                       //param->kickRand(),
                       //param->effortMax(), param->effortMin()
                       );
@@ -377,6 +440,7 @@ SampleCoach::doFirstSubstitute()
     ordered_unum.push_back( 5 );  // side back
     ordered_unum.push_back( 7 );  // defensive half
     ordered_unum.push_back( 8 );  // defensive half
+    ordered_unum.push_back( 1 );  // goalie
 #endif
 
 
@@ -385,25 +449,25 @@ SampleCoach::doFirstSubstitute()
     // goalie is always assigned to the default type so far.
     //
 
-    if ( config().version() >= 14.0 )
-    {
-        substituteTo( 1, Hetero_Default ); // goalie
-    }
-    {
-        PlayerTypePtrCont::iterator it = candidates.begin();
-        for ( ; it != candidates.end(); ++it )
-        {
-            if ( (*it)->id() == Hetero_Default )
-            {
-                break;
-            }
-        }
+    // if ( config().version() >= 14.0 )
+    // {
+    //     substituteTo( 1, Hetero_Default ); // goalie
+    // }
+    // {
+    //     PlayerTypePtrCont::iterator it = candidates.begin();
+    //     for ( ; it != candidates.end(); ++it )
+    //     {
+    //         if ( (*it)->id() == Hetero_Default )
+    //         {
+    //             break;
+    //         }
+    //     }
 
-        if ( it != candidates.end() )
-        {
-            candidates.erase( it );
-        }
-    }
+    //     if ( it != candidates.end() )
+    //     {
+    //         candidates.erase( it );
+    //     }
+    // }
 
     //
     // change field players
@@ -495,6 +559,9 @@ SampleCoach::doSubstituteTiredPlayers()
     //
     PlayerTypePtrCont candidates;
 
+    int start_id = Setting::i().min_type_id;
+    int end_id = Setting::i().max_type_id;
+
     for ( std::vector< int >::const_iterator
               id = world().availablePlayerTypeId().begin(),
               end = world().availablePlayerTypeId().end();
@@ -507,6 +574,11 @@ SampleCoach::doSubstituteTiredPlayers()
             std::cerr << config().teamName() << " coach: "
                       << world().time()
                       << " : Could not get player type. id=" << *id << std::endl;
+            continue;
+        }
+
+        if (*id < start_id || *id > end_id)
+        {
             continue;
         }
 

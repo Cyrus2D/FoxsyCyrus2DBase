@@ -8,6 +8,7 @@
 #include "json.hpp"
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 using namespace std;
 using json = nlohmann::json;
@@ -36,6 +37,11 @@ public:
     double pressing = 0; // 0 or 1
     int offside_trap = 0;
     double aggressiveness = 0.5; // 0 to 1
+
+    int min_type_id = 0;
+    int max_type_id = 17;
+
+    vector<int> player_type_ids;
 
     void find_version(const string &json_string);
 

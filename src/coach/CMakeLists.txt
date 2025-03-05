@@ -3,6 +3,7 @@ add_executable(sample_coach
   sample_freeform_message.cpp
   sample_coach.cpp
   main_coach.cpp
+  ../player/setting.cpp
   )
 
 target_include_directories(sample_coach
