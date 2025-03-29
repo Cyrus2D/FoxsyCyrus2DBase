@@ -126,7 +126,7 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
             // int max_type_id = 17;
             if (j.contains("min_type_id")) {
                 min_type_id = j.at("min_type_id").get<int>();
-                if (min_type_id != 0 || min_type_id != 18)
+                if (min_type_id != 0 && min_type_id != 18)
                 {
                     std::cout << "min_type_id is not valid" << std::endl;
                     throw std::invalid_argument("min_type_id is not valid");
@@ -135,7 +135,7 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
             }
             if (j.contains("max_type_id")) {
                 max_type_id = j.at("max_type_id").get<int>();
-                if (max_type_id != 17 || max_type_id != 35)
+                if (max_type_id != 17 && max_type_id != 35)
                 {
                     std::cout << "max_type_id is not valid" << std::endl;
                     throw std::invalid_argument("max_type_id is not valid");
