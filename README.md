@@ -23,6 +23,7 @@ Extract "cyrus.zip"
 
 Run "start.sh" with the following parameters:
 - -t: team name
+- -s: side (left or right)
 - -p: player port number (coach port number = player port number + 2)
 - -c: config path (path should be directory and in the directory config.json should be exist)
 - -j: json config
@@ -34,17 +35,17 @@ Run "start.sh" with the following parameters:
 ### Examples
 
 ```bash
-./start.sh -t Test -p 6000 -c ~/Data/1
+./start.sh -t Test -p 6000 -c ~/Data/1 -s left
 
-./start.sh -t Test -p 6000 -c ~/Data/1/f.config
+./start.sh -t Test -p 6000 -c ~/Data/1/f.config -s left
 
-./start.sh -t Test -p 6000 -c ~/Data/1/
+./start.sh -t Test -p 6000 -c ~/Data/1/ -s left
 
-./start.sh -t Test -p 6000 -j '{"version":1,"formation_name":"433"}'
+./start.sh -t Test -p 6000 -j '{"version":1,"formation_name":"433"}' -s left
 
-./start.sh -t Test -p 6000 -j '{"version":1,"formation_name":"433"}' -e json
+./start.sh -t Test -p 6000 -j '{"version":1,"formation_name":"433"}' -e json -s left
 
-./start.sh -t Test -p 6000 -j @q@{@qq@version@qq@:1@c@@qq@formation_name@qq@:@qq@433@qq@}@q@ -e temp
+./start.sh -t Test -p 6000 -j @q@{@qq@version@qq@:1@c@@qq@formation_name@qq@:@qq@433@qq@}@q@ -e temp -s left
 ```
 
 ### Json Settings
@@ -144,7 +145,13 @@ Run "start.sh" with the following parameters:
       "maximum" : 1,
       "minimum" : 0,
       "default" : 0.5
-    }
+    },
+    "player_type_ids": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
   }
 }
 ```
