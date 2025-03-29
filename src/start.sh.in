@@ -54,6 +54,7 @@ team_graphic="--use_team_graphic off"
 json_config=""
 config_path=""
 encoding="json"
+side=""
 
 number=11
 usecoach="true"
@@ -85,6 +86,7 @@ usage()
    echo "  -c,                          config path"
    echo "  -j,                          json config"
    echo "  -e,                          encoding (default: json)"
+   echo "  -s, --side SIDE             specifies the side of the field"
    echo "  -f, --formation DIR          specifies the formation directory"
    echo "  --team-graphic FILE          specifies the team graphic xpm file"
    echo "  --offline-logging            writes offline client log (default: off)"
@@ -181,6 +183,14 @@ do
       shift 1
       ;;
 
+    -s|--side)
+      if [ $# -lt 2 ]; then
+        usage
+        exit 1
+      fi
+      side="${2}"
+      shift 1
+      ;;
     -f|--formation)
       if [ $# -lt 2 ]; then
         usage
@@ -318,6 +328,11 @@ do
   shift 1
 done
 
+if [ "$side" != "left" ] && [ "$side" != "right" ]; then
+  echo "Error: side must be either left or right."
+  exit 1
+fi
+
 if  [ X"${offline_logging}" != X'' ]; then
   if  [ X"${offline_mode}" != X'' ]; then
     echo "'--offline-logging' and '--offline-mode' cannot be used simultaneously."
@@ -345,6 +360,8 @@ opt="${opt} --debug_server_port ${debug_server_port}"
 opt="${opt} ${offline_logging}"
 opt="${opt} ${debugopt}"
 opt="${opt} -e ${encoding}"
+opt="${opt} --side ${side}"
+
 if [ X"${json_config}" != X'' ]; then
   opt="${opt} -j ${json_config}"
 fi
@@ -400,6 +417,7 @@ if [ "${usecoach}" = "true" ]; then
   coachopt="${coachopt} ${offline_logging}"
   coachopt="${coachopt} ${debugopt}"
   coachopt="${coachopt} -e ${encoding}"
+  coachopt="${coachopt} --side ${side}"
   if [ X"${json_config}" != X'' ]; then
     coachopt="${coachopt} -j ${json_config}"
   fi

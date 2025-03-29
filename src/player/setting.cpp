@@ -122,26 +122,6 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
                 std::cout << "aggressiveness: " << aggressiveness << std::endl;
             }
 
-            // int min_type_id = 0;
-            // int max_type_id = 17;
-            if (j.contains("min_type_id")) {
-                min_type_id = j.at("min_type_id").get<int>();
-                if (min_type_id != 0 && min_type_id != 18)
-                {
-                    std::cout << "min_type_id is not valid" << std::endl;
-                    throw std::invalid_argument("min_type_id is not valid");
-                }
-                std::cout << "min_type_id: " << min_type_id << std::endl;
-            }
-            if (j.contains("max_type_id")) {
-                max_type_id = j.at("max_type_id").get<int>();
-                if (max_type_id != 17 && max_type_id != 35)
-                {
-                    std::cout << "max_type_id is not valid" << std::endl;
-                    throw std::invalid_argument("max_type_id is not valid");
-                }
-                std::cout << "max_type_id: " << max_type_id << std::endl;
-            }
             if (j.contains("player_type_ids")) {
                 player_type_ids = j.at("player_type_ids").get<vector<int>>();
                 for (int i = 0; i < player_type_ids.size(); i++) {
@@ -215,6 +195,20 @@ void Setting::read_from_arguments(int argc, char *argv[]){
         if (strcmp(argv[i], "-e") == 0) {
             if (i + 1 < argc) {
                 encoding = argv[i + 1];
+            }
+        }
+        if (strcmp(argv[i], "--side") == 0) {
+            if (i + 1 < argc) {
+                auto side = argv[i + 1];
+                if (strcmp(side, "left") == 0) {
+                    min_type_id = 0;
+                    max_type_id = 17;
+                } else if (strcmp(side, "right") == 0) {
+                    min_type_id = 18;
+                    max_type_id = 35;
+                } else {
+                    std::cerr << "Side is not valid" << std::endl;
+                }
             }
         }
     }
