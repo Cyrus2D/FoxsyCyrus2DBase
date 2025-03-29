@@ -108,7 +108,6 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
                     offside_trap = 1;
                 if (offside_trap == 0)
                     offside_trap = 0;
-                
 
                 std::cout << "offside_trap: " << offside_trap << std::endl;
             }
@@ -119,7 +118,6 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
                     aggressiveness = 0;
                 if (aggressiveness > 1)
                     aggressiveness = 1;
-                
 
                 std::cout << "aggressiveness: " << aggressiveness << std::endl;
             }
@@ -128,19 +126,31 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
             // int max_type_id = 17;
             if (j.contains("min_type_id")) {
                 min_type_id = j.at("min_type_id").get<int>();
-                if (min_type_id < 0)
-                    min_type_id = 0;
+                if (min_type_id != 0 || min_type_id != 18)
+                {
+                    std::cout << "min_type_id is not valid" << std::endl;
+                    throw std::invalid_argument("min_type_id is not valid");
+                }
                 std::cout << "min_type_id: " << min_type_id << std::endl;
             }
             if (j.contains("max_type_id")) {
                 max_type_id = j.at("max_type_id").get<int>();
-                if (max_type_id > 35)
-                    max_type_id = 35;
+                if (max_type_id != 17 || max_type_id != 35)
+                {
+                    std::cout << "max_type_id is not valid" << std::endl;
+                    throw std::invalid_argument("max_type_id is not valid");
+                }
                 std::cout << "max_type_id: " << max_type_id << std::endl;
             }
             if (j.contains("player_type_ids")) {
                 player_type_ids = j.at("player_type_ids").get<vector<int>>();
                 for (int i = 0; i < player_type_ids.size(); i++) {
+                    if (min_type_id == 18){
+                        if (player_type_ids[i] < 18)
+                        {
+                            player_type_ids[i] += 18;
+                        }
+                    }
                     std::cout << "player_type_ids[" << i << "]: " << player_type_ids[i] << std::endl;
                 }
             }
@@ -148,11 +158,13 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
         catch (exception &e)
         {
             std::cout << "Error in parsing json string: " << e.what() << std::endl;
+            throw std::invalid_argument("Error in parsing json string");
         }
     }
     else
     {
         std::cout << "Version is not supported or it was not found in json" << std::endl;
+        throw std::invalid_argument("Version is not supported or it was not found in json");
     }
 }
 
