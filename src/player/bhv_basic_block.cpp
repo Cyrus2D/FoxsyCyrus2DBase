@@ -40,6 +40,7 @@ bool Bhv_BasicBlock::execute(PlayerAgent *agent)
          && ( self_min <= 3
               || ( self_min <= mate_min
                    && self_min < opp_min + 3 ) // pressing
+              || wm.ball().distFromSelf() <= 10.0 // intercept when close to ball
          )
             )
     {
