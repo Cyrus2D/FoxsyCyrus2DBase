@@ -9,6 +9,21 @@ Setting & Setting::i() {
     return instance;
 }
 
+void Setting::log(const std::string &message) {
+    log_buffer << message;
+}
+
+void Setting::print_logs() {
+    // add ----- at the beginning and the end of the logs
+    log_buffer.str("-------------------------\n" + log_buffer.str() + "-------------------------\n");
+    std::cout << log_buffer.str();
+}
+
+void Setting::clear_logs() {
+    log_buffer.str("");
+    log_buffer.clear();
+}
+
 void Setting::find_version(const string &json_str){
     try
     {
@@ -16,11 +31,12 @@ void Setting::find_version(const string &json_str){
 
         if (j.contains("version"))
             version = j.at("version").get<int>();
-        std::cout<< "version: " << version << std::endl;
+        log("version: " + std::to_string(version) + "\n");
     }
     catch (exception &e)
     {
-        std::cout << "Error in parsing json string: " << e.what() << std::endl;
+        log("Error in parsing json string: " + std::string(e.what()) + "\n");
+        throw std::invalid_argument("Error in parsing json string");
     }
 }
 
@@ -34,14 +50,14 @@ void replaceAll(std::string &str, const std::string &from, const std::string &to
 
 string Setting::decode(const std::string &encoding, const std::string &encoded_string) {
     if (encoding == "json") {
-        std::cout<< "json encoding" << std::endl;
+        log("json encoding\n");
         return encoded_string;
     }
     else if (encoding == "temp") {
         // replace @qq@ with "
         // replace @q@ with '
         // replace @c@ with ,
-        std::cout<< "temp encoding" << std::endl;
+        log("temp encoding\n");
         string decoded_string = encoded_string;
         replaceAll(decoded_string, "@qq@", "\"");
         replaceAll(decoded_string, "@q@", "'");
@@ -49,7 +65,7 @@ string Setting::decode(const std::string &encoding, const std::string &encoded_s
         return decoded_string;
     }
     else {
-        std::cout << "Encoding is not supported" << std::endl;
+        log("Encoding is not supported\n");
         return "json";
     }
 }
@@ -66,8 +82,8 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
             if (j.contains("formation_name")) {
                 formation_name = j.at("formation_name").get<std::string>();
                 if (std::find(formation_options.begin(), formation_options.end(), formation_name) == formation_options.end()) {
-                    std::cout << "Formation name is not valid" << std::endl;
-                    formation_name = formation_options.at(0);
+                    log("Formation name is not valid\n");
+                    throw std::invalid_argument("Formation name is not valid");
                 }
             }
             if (j.contains("offensive_kick_planner_use_direct_pass"))
@@ -109,7 +125,7 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
                 if (offside_trap == 0)
                     offside_trap = 0;
 
-                std::cout << "offside_trap: " << offside_trap << std::endl;
+                log("offside_trap: " + std::to_string(offside_trap) + "\n");
             }
 
             if (j.contains("aggressiveness")) {
@@ -119,11 +135,15 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
                 if (aggressiveness > 1)
                     aggressiveness = 1;
 
-                std::cout << "aggressiveness: " << aggressiveness << std::endl;
+                log("aggressiveness: " + std::to_string(aggressiveness) + "\n");
             }
 
             if (j.contains("player_type_ids")) {
                 player_type_ids = j.at("player_type_ids").get<vector<int>>();
+                if (player_type_ids.size() > 18) {
+                    log("player_type_ids size is more than 18\n");
+                    throw std::invalid_argument("player_type_ids size is more than 18");
+                }
                 for (int i = 0; i < player_type_ids.size(); i++) {
                     if (min_type_id == 18){
                         if (player_type_ids[i] < 18)
@@ -131,19 +151,49 @@ void Setting::load_from_json_string(const string &json_str, const string &encodi
                             player_type_ids[i] += 18;
                         }
                     }
-                    std::cout << "player_type_ids[" << i << "]: " << player_type_ids[i] << std::endl;
+                }
+                std::string player_type_ids_str = "player_type_ids[0.." + std::to_string(player_type_ids.size() - 1) + "]=[";
+                for (size_t i = 0; i < player_type_ids.size(); i++) {
+                    player_type_ids_str += std::to_string(player_type_ids[i]);
+                    if (i < player_type_ids.size() - 1) {
+                        player_type_ids_str += ",";
+                    }
+                }
+                player_type_ids_str += "]";
+                log(player_type_ids_str + "\n");
+            }
+            // check if json contains unsupported keys
+            for (auto& el : j.items()) {
+                std::string key = el.key();
+                if (key != "version" && key != "formation_name" &&
+                    key != "offensive_kick_planner_use_direct_pass" &&
+                    key != "offensive_kick_planner_use_lead_pass" &&
+                    key != "offensive_kick_planner_use_through_pass" &&
+                    key != "offensive_kick_planner_use_cross_pass" &&
+                    key != "offensive_kick_planner_use_short_dribble" &&
+                    key != "offensive_kick_planner_use_long_dribble" &&
+                    key != "offensive_kick_planner_use_sample_shot" &&
+                    key != "offensive_kick_planner_use_sample_pass" &&
+                    key != "offensive_kick_planner_use_sample_dribble" &&
+                    key != "moving_save_energy" &&
+                    key != "pressing" &&
+                    key != "offside_trap" &&
+                    key != "aggressiveness" &&
+                    key != "player_type_ids") {
+                    log("Unsupported key in json: " + key + "\n");
+                    throw std::invalid_argument("Unsupported key in json: " + key);
                 }
             }
         }
         catch (exception &e)
         {
-            std::cout << "Error in parsing json string: " << e.what() << std::endl;
-            throw std::invalid_argument("Error in parsing json string");
+            log("Error in parsing json values: " + std::string(e.what()) + "\n");
+            throw std::invalid_argument("Error in parsing json values");
         }
     }
     else
     {
-        std::cout << "Version is not supported or it was not found in json" << std::endl;
+        log("Version is not supported or it was not found in json\n");
         throw std::invalid_argument("Version is not supported or it was not found in json");
     }
 }
@@ -155,11 +205,13 @@ void Setting::read_from_file(string file_path, const string &encoding) {
         file_path = file_path + "/config.json";
     }
     if (!std::filesystem::exists(file_path)) {
+        log("File does not exist - '" + file_path + "'\n");
         std::cerr << "File does not exist - '" << file_path << "'" << std::endl;
         return;
     }
     std::ifstream file(file_path);
     if (!file.is_open()) {
+        log("Could not open the file - '" + file_path + "'\n");
         std::cerr << "Could not open the file - '" << file_path << "'" << std::endl;
         return;
     }
@@ -170,58 +222,114 @@ void Setting::read_from_file(string file_path, const string &encoding) {
 }
 
 void Setting::print() const {
-    std::cout << "formation_name: " << formation_name << std::endl;
-    std::cout << "offensive_kick_planner_use_direct_pass: " << offensive_kick_planner_use_direct_pass << std::endl;
-    std::cout << "offensive_kick_planner_use_lead_pass: " << offensive_kick_planner_use_lead_pass << std::endl;
-    std::cout << "offensive_kick_planner_use_through_pass: " << offensive_kick_planner_use_through_pass << std::endl;
-    std::cout << "offensive_kick_planner_use_cross_pass: " << offensive_kick_planner_use_cross_pass << std::endl;
-    std::cout << "offensive_kick_planner_use_short_dribble: " << offensive_kick_planner_use_short_dribble << std::endl;
-    std::cout << "offensive_kick_planner_use_long_dribble: " << offensive_kick_planner_use_long_dribble << std::endl;
-    std::cout << "offensive_kick_planner_use_sample_shot: " << offensive_kick_planner_use_sample_shot << std::endl;
-    std::cout << "offensive_kick_planner_use_sample_pass: " << offensive_kick_planner_use_sample_pass << std::endl;
-    std::cout << "offensive_kick_planner_use_sample_dribble: " << offensive_kick_planner_use_sample_dribble << std::endl;
-    std::cout << "moving_save_energy: " << moving_save_energy << std::endl;
-    std::cout << "pressing: " << pressing << std::endl;
-    std::cout << "min_type_id: " << min_type_id << std::endl;
-    std::cout << "max_type_id: " << max_type_id << std::endl;
+    // Cast away const to use log() method
+    Setting* self = const_cast<Setting*>(this);
+    
+    self->log("formation_name: " + formation_name + "\n");
+    self->log("offensive_kick_planner_use_direct_pass: " + std::to_string(offensive_kick_planner_use_direct_pass) + "\n");
+    self->log("offensive_kick_planner_use_lead_pass: " + std::to_string(offensive_kick_planner_use_lead_pass) + "\n");
+    self->log("offensive_kick_planner_use_through_pass: " + std::to_string(offensive_kick_planner_use_through_pass) + "\n");
+    self->log("offensive_kick_planner_use_cross_pass: " + std::to_string(offensive_kick_planner_use_cross_pass) + "\n");
+    self->log("offensive_kick_planner_use_short_dribble: " + std::to_string(offensive_kick_planner_use_short_dribble) + "\n");
+    self->log("offensive_kick_planner_use_long_dribble: " + std::to_string(offensive_kick_planner_use_long_dribble) + "\n");
+    self->log("offensive_kick_planner_use_sample_shot: " + std::to_string(offensive_kick_planner_use_sample_shot) + "\n");
+    self->log("offensive_kick_planner_use_sample_pass: " + std::to_string(offensive_kick_planner_use_sample_pass) + "\n");
+    self->log("offensive_kick_planner_use_sample_dribble: " + std::to_string(offensive_kick_planner_use_sample_dribble) + "\n");
+    self->log("moving_save_energy: " + std::to_string(moving_save_energy) + "\n");
+    self->log("pressing: " + std::to_string(pressing) + "\n");
+    self->log("min_type_id: " + std::to_string(min_type_id) + "\n");
+    self->log("max_type_id: " + std::to_string(max_type_id) + "\n");
+    
+    self->print_logs();
 }
 
-void Setting::read_from_arguments(int argc, char *argv[]){
-    for (int i = 0; i < argc; i++) {
-        std::cout << argv[i] << std::endl;
-    }
-    string encoding = "json";
-    for (int i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "-e") == 0) {
+void Setting::read_from_arguments(int &argc, char **argv){
+    // Second pass: process configuration arguments
+    try {
+        log("Reading from arguments: ");
+        for (int i = 0; i < argc; i++) {
+            log(argv[i]);
             if (i + 1 < argc) {
-                encoding = argv[i + 1];
+                log(" ");
+            } else {
+                log("\n");
             }
         }
-        if (strcmp(argv[i], "--side") == 0) {
-            if (i + 1 < argc) {
-                auto side = argv[i + 1];
-                if (strcmp(side, "left") == 0) {
-                    min_type_id = 0;
-                    max_type_id = 17;
-                } else if (strcmp(side, "right") == 0) {
-                    min_type_id = 18;
-                    max_type_id = 35;
-                } else {
-                    std::cerr << "Side is not valid" << std::endl;
+        
+        vector<bool> to_remove(argc, false);
+        string encoding = "json";
+        
+        // First pass: find encoding and side
+        for (int i = 1; i < argc; i++) {
+            if (strcmp(argv[i], "-e") == 0) {
+                if (i + 1 < argc) {
+                    encoding = argv[i + 1];
+                    to_remove[i] = true;
+                    to_remove[i + 1] = true;
+                    i++; // Skip next argument
+                }
+            }
+            else if (strcmp(argv[i], "--side") == 0) {
+                if (i + 1 < argc) {
+                    auto side = argv[i + 1];
+                    if (strcmp(side, "left") == 0) {
+                        min_type_id = 0;
+                        max_type_id = 17;
+                    } else if (strcmp(side, "right") == 0) {
+                        min_type_id = 18;
+                        max_type_id = 35;
+                    } else {
+                        log("Side is not valid\n");
+                    }
+                    to_remove[i] = true;
+                    to_remove[i + 1] = true;
+                    i++; // Skip next argument
                 }
             }
         }
-    }
-    for (int i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "-j") == 0) {
-            if (i + 1 < argc) {
-                load_from_json_string(argv[i + 1], encoding);
-            }
-        } else if (strcmp(argv[i], "-c") == 0) {
-            if (i + 1 < argc) {
-                read_from_file(argv[i + 1], encoding);
+
+        for (int i = 1; i < argc; i++) {
+            if (strcmp(argv[i], "-j") == 0) {
+                if (i + 1 < argc) {
+                    load_from_json_string(argv[i + 1], encoding);
+                    to_remove[i] = true;
+                    to_remove[i + 1] = true;
+                    i++; // Skip next argument
+                }
+            } else if (strcmp(argv[i], "-c") == 0) {
+                if (i + 1 < argc) {
+                    read_from_file(argv[i + 1], encoding);
+                    to_remove[i] = true;
+                    to_remove[i + 1] = true;
+                    i++; // Skip next argument
+                }
             }
         }
+        
+        // Remove processed arguments
+        int new_argc = 0;
+        for (int i = 0; i < argc; i++) {
+            if (!to_remove[i]) {
+                argv[new_argc++] = argv[i];
+            }
+        }
+        argc = new_argc;
+        
+        log("Remaining arguments after Setting parsing: ");
+        for (int i = 0; i < argc; i++) {
+            log(argv[i]);
+            if (i + 1 < argc) {
+                log(" ");
+            } else {
+                log("\n");
+            }
+        }
+        
+        print();
     }
-    print();
+    catch (const std::exception &e) {
+        log("Exception caught in read_from_arguments: " + std::string(e.what()) + "\n");
+        print();
+        throw;
+    }
 }

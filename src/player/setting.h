@@ -9,13 +9,21 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <sstream>
 
 using namespace std;
 using json = nlohmann::json;
 
 class Setting {
+private:
+    std::ostringstream log_buffer;
+
 public:
     static Setting & i();
+
+    void log(const std::string &message);
+    void print_logs();
+    void clear_logs();
 
     int version = 0;
     vector<string> formation_options = {"433", "442", "532"};
@@ -53,7 +61,7 @@ public:
 
     void print() const;
 
-    void read_from_arguments(int argc, char *argv[]);
+    void read_from_arguments(int &argc, char **argv);
 };
 
 

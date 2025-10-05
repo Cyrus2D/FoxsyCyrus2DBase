@@ -45,7 +45,11 @@ Run "start.sh" with the following parameters:
 
 ./start.sh -t Test -p 6000 -j '{"version":1,"formation_name":"433"}' -e json -s left
 
+./start.sh -t Test -p 6000 -j '{"version":1,"formation_name":"433","player_type_ids":[1,2,3,...]}' -e json -s left
+
 ./start.sh -t Test -p 6000 -j @q@{@qq@version@qq@:1@c@@qq@formation_name@qq@:@qq@433@qq@}@q@ -e temp -s left
+
+
 ```
 
 ### Json Settings
